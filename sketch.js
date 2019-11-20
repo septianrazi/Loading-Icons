@@ -1,3 +1,13 @@
+/* -------------------------------
+Loading Icons P5 Project
+Septian Razi , 2019
+
+Things to Consider:
+- Hierarchical Modelling
+- Slider for Speed and Opacity
+----------------------------------*/
+
+
 var bgColour = 255
 var loadingColour = 0
 var bordebuttonW = 10 // border width for bleed
@@ -15,13 +25,12 @@ var sliderPosMin = 50
 var sliderPosMax = 190
 var sliderButtonSize = 20
 var sliderFill = 150
-var globalSpeed;
+var globalSpeed = 0.50;
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   sliderPosY = windowHeight - bordebuttonW - buttonH
-  globalSpeed = 0.10;
 }
 
 function draw() {
@@ -53,8 +62,13 @@ function draw() {
   translate(windowWidth/2, windowHeight/2);
   //loadArray[0]();
   //console.log(loadArray)
+
+  load25(globalSpeed)
     
-  load21(globalSpeed) //
+  // load24(globalSpeed)
+  // load23(globalSpeed)
+  // load22(globalSpeed)
+  // load21(globalSpeed) //
   // load20(globalSpeed) //
   // load13(globalSpeed) //
   // load19(globalSpeed) //   bgOpacity = 50
@@ -139,10 +153,64 @@ function changeBackground() {
 // CODE FOR LOADING ANIMATIONS
 ////////////////////////////////////////////////
 
+//Square size heartbeat duo rotate
+function load25(speed) {
+  push()
+
+  noStroke()
+  rotate(frameCount*speed/3)
+
+  change = (sin(frameCount*speed/5)* 100)
+  change2 = (cos(frameCount*speed/5)* 100)
+  rect(-100, 0, change, change)
+  rect(100, 0, change2, change2)
+  
+
+  pop()
+}
+
+//Circle size heartbeat duo rotate
+function load24(speed) {
+  push()
+
+  noStroke()
+  rotate(frameCount*speed/3)
+
+  change = (sin(frameCount*speed/5)* 100)
+  change2 = (cos(frameCount*speed/5)* 100)
+  ellipse(-50,0,change)
+  ellipse(50,0,change2)
+
+  pop()
+}
+
+//Circle size heartbeat
+function load23(speed) {
+  push()
+
+  change = (sin(frameCount*speed/5)* 100)
+  ellipse(0,0,change)
+
+  pop()
+}
+
+//Highway
+function load22(speed) {
+  push()
+
+  change = (sin(frameCount*speed/5)* 50)
+  change2 = (tan(frameCount*speed/5)* 50)
+  rotate(frameCount*speed/23)
+  translate(change, 0)
+  translate(0, change2)
+  ellipse(0,0,30)
+
+  pop()
+}
+
 //Floral Pattern
 function load21(speed) {
   push()
-  ellipse(0,0,5)
   // speed = 0.005
   noStroke()
   // bgOpacity = 50
@@ -155,11 +223,6 @@ function load21(speed) {
   rotate(change)
   ellipse(0,20,20)
 
-  pop()
-
-
-
-  console.log(change)
   pop()
 }
 
