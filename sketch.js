@@ -63,7 +63,9 @@ function draw() {
   //loadArray[0]();
   //console.log(loadArray)
 
-  load25(globalSpeed)
+  load26(globalSpeed) // speed = 0.5
+
+  // load25(globalSpeed)
     
   // load24(globalSpeed)
   // load23(globalSpeed)
@@ -152,6 +154,32 @@ function changeBackground() {
 ////////////////////////////////////////////////
 // CODE FOR LOADING ANIMATIONS
 ////////////////////////////////////////////////
+
+// WINDMEEL two Speeds speed 0.5
+function load26(speed) {
+  push()
+
+  // let change = loadingSize * (tan(cos(((frameCount*speed)))))
+  //line(-loadingSize+change,0,loadingSize-change,0)
+  stroke(1)
+  strokeWeight(10)
+
+  fill(loadingColour)
+  push()
+  rotate(frameCount*speed * 30/4)
+  line(-200, 0, 200, 0)
+  line(0, -200, 0, 200)
+  pop()
+  rotate((frameCount*speed * 30/4.1))
+  line(-200, 0, 200, 0)
+  line(0, -200, 0, 200)
+  
+  //circle(change, 0, 50)
+
+
+  
+  pop()
+}
 
 //Square size heartbeat duo rotate
 function load25(speed) {
