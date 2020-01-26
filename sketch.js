@@ -63,7 +63,9 @@ function draw() {
   //loadArray[0]();
   //console.log(loadArray)
 
-  load26(globalSpeed) // speed = 0.5
+
+  load27(globalSpeed);
+  // load26(globalSpeed) // speed = 0.5
 
   // load25(globalSpeed)
     
@@ -154,6 +156,18 @@ function changeBackground() {
 ////////////////////////////////////////////////
 // CODE FOR LOADING ANIMATIONS
 ////////////////////////////////////////////////
+
+
+// figure 8
+function load27(speed){
+  push();
+
+  let x = sin(frameCount * speed) * 50;
+
+  let y = cos(frameCount * speed/2) * 100;
+  ellipse(x,y, 25 , 25);
+  pop();
+}
 
 // WINDMEEL two Speeds speed 0.5
 function load26(speed) {
