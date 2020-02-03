@@ -63,8 +63,8 @@ function draw() {
   //loadArray[0]();
   //console.log(loadArray)
 
-
-  load27(globalSpeed);
+  load28(globalSpeed);
+  // load27(globalSpeed);
   // load26(globalSpeed) // speed = 0.5
 
   // load25(globalSpeed)
@@ -157,15 +157,24 @@ function changeBackground() {
 // CODE FOR LOADING ANIMATIONS
 ////////////////////////////////////////////////
 
+// figure 8 scribble
+function load28(speed){
+  push();
+
+  rotate(frameCount * speed / 5)
+  load27(speed);
+
+  pop();
+}
 
 // figure 8
 function load27(speed){
   push();
 
   let x = sin(frameCount * speed) * 50;
-
   let y = cos(frameCount * speed/2) * 100;
   ellipse(x,y, 25 , 25);
+  
   pop();
 }
 
