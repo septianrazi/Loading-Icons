@@ -66,6 +66,7 @@ function draw() {
   fill(loadingColour)
   translate(windowWidth/2, windowHeight/2);
 
+  // Array to store the functions to be loaded
   var loadingFunctions = [
     load1, // 1/12
     load2, // 1/12
@@ -179,7 +180,16 @@ function keyTyped() {
     bgOpacity = bgOpacity + 10;
   } else if (key === 'q') {
     bgOpacity = bgOpacity - 10;
+  } else if (key === '2') {
+    bgOpacity = bgOpacity + 50;
+  } else if (key === '1') {
+    bgOpacity = bgOpacity - 50;
+  } else if (key === 'z') {
+    loadingIndex++;
+  } else if (key === 'x') {
+    loadingIndex--;
   }
+
   if (bgOpacity <= 0){
     bgOpacity = 0;
   } else if (bgOpacity > 255){
