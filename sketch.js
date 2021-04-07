@@ -27,6 +27,8 @@ var sliderButtonSize = 20
 var sliderFill = 150
 var globalSpeed = 0.50;
 
+var loadingIndex = 1;
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -39,67 +41,70 @@ function draw() {
   textAlign(CENTER, CENTER);
   textSize(16);
   strokeWeight(0.5);
+
   // Button 1
   fill(loadingColour);
   rect(windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW, buttonW, buttonH, 10);
   fill(bgColour);
   text("Colour", windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW);
+
   // Button 2
   fill(loadingColour);
   rect(windowWidth - 3*buttonW - 2*bordebuttonW, windowHeight - buttonH - bordebuttonW, buttonW, buttonH, 10);
   fill(bgColour);
   text(debug, windowWidth - 3*buttonW - 2*bordebuttonW, windowHeight - buttonH - bordebuttonW);
   
+  // Mouse Position Text
   fill(150);
   text('x: ' + Math.round(mouseX) + ' y: ' + Math.round(mouseY), 100, 50);
   
+  // Slider
   fill(225)
-
   drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
 
 
   fill(loadingColour)
   translate(windowWidth/2, windowHeight/2);
-  //loadArray[0]();
-  //console.log(loadArray)
 
-  load28(globalSpeed);
-  // load27(globalSpeed);
-  // load26(globalSpeed) // speed = 0.5
+  var loadingFunctions = [
+    load1, // 1/12
+    load2, // 1/12
+    load3, // 1/12
+    load4,  // 1/20
+    load5,  // 1/20
+    load6,  // 1/20
+    load7,  // 1/20
+    load8,  // 1/20
+    load9,  // 1/20
+    load10, // 1/30
+    load11, // 1/20
+    load12,
+    load13,
+    load14, // 1/20   bgOpacity = 50;
+    load15, // 1/20   bgOpacity = 80
+    load16, //   bgOpacity = 37
+    load17,
+    load18, //   bgOpacity = 50
+    load19, //   bgOpacity = 50
+    load20, //
+    load21, //
+    load22,
+    load23,
+    load24,
+    load25,
+    load26, // speed = 0.5
+    load27,
+    load28,
+  ]
+ 
 
-  // load25(globalSpeed)
-    
-  // load24(globalSpeed)
-  // load23(globalSpeed)
-  // load22(globalSpeed)
-  // load21(globalSpeed) //
-  // load20(globalSpeed) //
-  // load13(globalSpeed) //
-  // load19(globalSpeed) //   bgOpacity = 50
-  // load18(globalSpeed) //   bgOpacity = 50
-  // load17(globalSpeed)
-  // load16(globalSpeed) //   bgOpacity = 37
-  // load15(globalSpeed) // 1/20   bgOpacity = 80
-  // load14(globalSpeed) // 1/20   bgOpacity = 50;
-
-  // load12(globalSpeed)
-  // load11(globalSpeed) // 1/20
-  // load10(globalSpeed) // 1/30
-  // load9(globalSpeed) // 1/20
-  // load8(globalSpeed) // 1/20
-  // load7(globalSpeed) // 1/20
-  // load6(globalSpeed) // 1/20
-  // load5(globalSpeed) // 1/20
-  // load4(globalSpeed) // 1/20
-  // load3(globalSpeed)// 1/12
-  // load2(globalSpeed)// 1/12
-  // load1(globalSpeed)// 1/12
+  loadingFunctions[loadingIndex](globalSpeed);
 
 
   //strokeWeight(1)
 }
 
-
+// function to draw slider
 function drawSlider(x, s, min, max, f){
   stroke(loadingColour)
   color(loadingColour)
@@ -110,6 +115,7 @@ function drawSlider(x, s, min, max, f){
   stroke(1)
 }
 
+// Mouse Pressed Event Listener
 function mousePressed() {
   // Check if mouse is inside the circle
   //rect(windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW
@@ -149,7 +155,38 @@ function changeBackground() {
     loadingColour = 0;
     blackBG = true
   }
-  
+}
+
+// function called when a key is pressed
+function keyTyped() {
+  // keys to alter speed
+  if (key === '=') {
+    globalSpeed = globalSpeed + 0.02;
+  } else if (key === ']') {
+    globalSpeed = globalSpeed + 0.001;
+  } else if (key === '-') {
+    globalSpeed = globalSpeed - 0.02;
+  } else if (key === '[') {
+    globalSpeed = globalSpeed - 0.001;
+  }
+  if (globalSpeed <= 0){
+    globalSpeed = 0;
+  }
+
+
+  //keys to alter background opacity
+  if (key === 'w') {
+    bgOpacity = bgOpacity + 10;
+  } else if (key === 'q') {
+    bgOpacity = bgOpacity - 10;
+  }
+  if (bgOpacity <= 0){
+    bgOpacity = 0;
+  } else if (bgOpacity > 255){
+    bgOpacity = 255;
+  }
+
+  console.log("speed = " + globalSpeed + ", opacity = " + bgOpacity)
 }
 
 
@@ -619,37 +656,7 @@ function load1(speed) {
   pop()
 }
 
-// function called when a key is pressed
-function keyTyped() {
-  // keys to alter speed
-  if (key === '=') {
-    globalSpeed = globalSpeed + 0.02;
-  } else if (key === ']') {
-    globalSpeed = globalSpeed + 0.001;
-  } else if (key === '-') {
-    globalSpeed = globalSpeed - 0.02;
-  } else if (key === '[') {
-    globalSpeed = globalSpeed - 0.001;
-  }
-  if (globalSpeed <= 0){
-    globalSpeed = 0;
-  }
 
-
-  //keys to alter background opacity
-  if (key === 'w') {
-    bgOpacity = bgOpacity + 10;
-  } else if (key === 'q') {
-    bgOpacity = bgOpacity - 10;
-  }
-  if (bgOpacity <= 0){
-    bgOpacity = 0;
-  } else if (bgOpacity > 255){
-    bgOpacity = 255;
-  }
-
-  console.log("speed = " + globalSpeed + ", opacity = " + bgOpacity)
-}
 
 // Function meme
 // function loadN(speed) {
