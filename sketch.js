@@ -29,38 +29,8 @@ var sliderButtonSize = 20
 var sliderFill = 150
 var globalSpeed = 0.10;
 
+// Loading Function Index to be played from the loadingFunctions Array
 var loadingIndex = 1;
-  // Array to store the functions to be loaded
-var loadingFunctions = [
-  load1, // 1/12
-  load2, // 1/12
-  load3, // 1/12
-  load4,  // 1/20
-  load5,  // 1/20
-  load6,  // 1/20
-  load7,  // 1/20
-  load8,  // 1/20
-  load9,  // 1/20
-  load10, // 1/30
-  load11, // 1/20
-  load12,
-  load13,
-  load14, // 1/20   bgOpacity = 50;
-  load15, // 1/20   bgOpacity = 80
-  load16, //   bgOpacity = 37
-  load17,
-  load18, //   bgOpacity = 50
-  load19, //   bgOpacity = 50
-  load20, //
-  load21, //
-  load22,
-  load23,
-  load24,
-  load25,
-  load26, // speed = 0.5
-  load27,
-  load28,
-]
 
 
 function setup() {
@@ -91,12 +61,13 @@ function draw() {
   fill(150);
   text('x: ' + Math.round(mouseX) + ' y: ' + Math.round(mouseY), 100, 50);
   
-  // Slider
-  fill(225)
-  drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
+  // // Slider
+  // fill(225)
+  // drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
 
 
   fill(loadingColour)
+  stroke(loadingColour)
   translate(windowWidth/2, windowHeight/2);
  
   loadingFunctions[loadingIndex](globalSpeed);
@@ -120,38 +91,50 @@ function drawSlider(x, s, min, max, f){
 function mousePressed() {
   // Check if mouse is inside the circle
   //rect(windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW
-  if (mouseX > (windowWidth - 2*buttonW - bordebuttonW) && mouseX < (windowWidth - bordebuttonW)) {
-    if (mouseY > (windowHeight - 2*buttonH - bordebuttonW) && mouseY < (windowHeight - bordebuttonW)) {
-      changeBackground()
-    }
-  }
+  // if (mouseX > (windowWidth - 2*buttonW - bordebuttonW) && mouseX < (windowWidth - bordebuttonW)) {
+  //   if (mouseY > (windowHeight - 2*buttonH - bordebuttonW) && mouseY < (windowHeight - bordebuttonW)) {
+  //     changeBackground()
+  //   }
+  // }
   if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < loadingSize){
     changeBackground()
   }
 
-  if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
-    sliderFill = 180
-  }
+  // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
+  //   sliderFill = 180
+  // }
 }
 
-function mouseReleased() {
-  sliderFill = 150
-}
+// function mouseReleased() {
+//   sliderFill = 150
+// }
 
 // function to change the background of colour
 function changeBackground() {
-  console.log("before" + blackBG)
   if (blackBG) {
     bgColour = 0;
     loadingColour = 255;
     blackBG = false
-    console.log("p1")
   } else if (!blackBG){
-    console.log("p2")
     bgColour = 255;
     loadingColour = 0;
     blackBG = true
   }
+}
+
+// function to prepare the change of the loading icon
+// param: changeToIndex - loadingIcon index to change to
+function changeLoadingIcon(changeToIndex) {
+
+  // if changeToIndex is not valid, exit function
+  if (changeToIndex >= loadingFunctions.length || changeToIndex < 0){
+    console.log("cannot change to index " + changeToIndex + " as it is out of bounds");
+    return
+  }    
+
+  background(bgColour);
+  loadingIndex = changeToIndex;
+  console.log("Changed to " + loadingFunctions[loadingIndex].name)
 }
 
 // function called when a key is pressed
@@ -181,9 +164,9 @@ function keyTyped() {
   } else if (key === '1') {
     bgOpacity = bgOpacity - 50;
   } else if (key === 'x') {
-    loadingIndex++;
+    changeLoadingIcon(loadingIndex+1);
   } else if (key === 'z') {
-    loadingIndex--;
+    changeLoadingIcon(loadingIndex-1);
   }
 
   if (bgOpacity <= 0){

@@ -3,6 +3,38 @@ Loading Icons P5 Project
 Septian Razi , 2019
 ----------------------------------*/
 
+// Array to store the functions to be loaded
+var loadingFunctions = [
+    load1, // 1/12
+    load2, // 1/12
+    load3, // 1/12
+    load4,  // 1/20
+    load5,  // 1/20
+    load6,  // 1/20
+    load7,  // 1/20
+    load8,  // 1/20
+    load9,  // 1/20
+    load10, // 1/30
+    load11, // 1/20
+    load12,
+    load13,
+    load14, // 1/20   bgOpacity = 50;
+    load15, // 1/20   bgOpacity = 80
+    load16, //   bgOpacity = 37
+    load17,
+    load18, //   bgOpacity = 50
+    load19, //   bgOpacity = 50
+    load20, //
+    load21, //
+    load22,
+    load23,
+    load24,
+    load25,
+    load26, // speed = 0.5
+    load27,
+    load28,
+  ]
+
 ////////////////////////////////////////////////
 // CODE FOR LOADING ANIMATIONS
 ////////////////////////////////////////////////
@@ -34,7 +66,7 @@ function load28(speed){
   
     // let change = loadingSize * (tan(cos(((frameCount*speed)))))
     //line(-loadingSize+change,0,loadingSize-change,0)
-    stroke(1)
+    stroke(loadingColour)
     strokeWeight(10)
   
     fill(loadingColour)
@@ -141,7 +173,7 @@ function load28(speed){
       rect(0,0,50+change,50+change, 3*change, 3*change)
     }
   
-    console.log(change)
+    // console.log(change)
     pop()
   }
   //Square rev up
@@ -158,7 +190,7 @@ function load28(speed){
       rect(0,0,50+change,50+change, 3*change, 3*change)
     }
   
-    console.log(change)
+    // console.log(change)
     pop()
   }
   
@@ -171,7 +203,8 @@ function load28(speed){
     change = tan(frameCount*speed/10)
     rotate(change)
     rect(0,0,50+change,50+change)
-    console.log(change)
+
+    // console.log(change)
     pop()
   }
   
@@ -202,7 +235,7 @@ function load28(speed){
   
     let change = loadingSize * (tan(cos(((frameCount*speed)))))
     //line(-loadingSize+change,0,loadingSize-change,0)
-    stroke(1)
+    stroke(loadingColour)
     strokeWeight(5)
   
     fill(loadingColour)
@@ -211,8 +244,6 @@ function load28(speed){
     
     //circle(change, 0, 50)
   
-  
-    
     pop()
   }
   
