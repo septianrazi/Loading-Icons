@@ -80,9 +80,7 @@ function load28(speed){
     line(0, -200, 0, 200)
     
     //circle(change, 0, 50)
-  
-  
-    
+
     pop()
   }
   

@@ -3,12 +3,6 @@ Loading Icons P5 Project
 Septian Razi , 2019
 ----------------------------------*/
 
-/* -------------------------------
-Things to Consider:
-- Hierarchical Modelling
-- Slider for Speed and Opacity
-----------------------------------*/
-
 
 var bgColour = 255
 var loadingColour = 0
@@ -72,70 +66,9 @@ function draw() {
  
   loadingFunctions[loadingIndex](globalSpeed);
 
-
   //strokeWeight(1)
 }
 
-// function to draw slider
-function drawSlider(x, s, min, max, f){
-  stroke(loadingColour)
-  color(loadingColour)
-  line(min, sliderPosY, max, sliderPosY)
-  noStroke()
-  fill(f)
-  circle(x, sliderPosY, s)
-  stroke(1)
-}
-
-// Mouse Pressed Event Listener
-function mousePressed() {
-  // Check if mouse is inside the circle
-  //rect(windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW
-  // if (mouseX > (windowWidth - 2*buttonW - bordebuttonW) && mouseX < (windowWidth - bordebuttonW)) {
-  //   if (mouseY > (windowHeight - 2*buttonH - bordebuttonW) && mouseY < (windowHeight - bordebuttonW)) {
-  //     changeBackground()
-  //   }
-  // }
-  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < loadingSize){
-    changeBackground()
-  }
-
-  // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
-  //   sliderFill = 180
-  // }
-}
-
-// function mouseReleased() {
-//   sliderFill = 150
-// }
-
-// function to change the background of colour
-function changeBackground() {
-  if (blackBG) {
-    bgColour = 0;
-    loadingColour = 255;
-    blackBG = false
-  } else if (!blackBG){
-    bgColour = 255;
-    loadingColour = 0;
-    blackBG = true
-  }
-}
-
-// function to prepare the change of the loading icon
-// param: changeToIndex - loadingIcon index to change to
-function changeLoadingIcon(changeToIndex) {
-
-  // if changeToIndex is not valid, exit function
-  if (changeToIndex >= loadingFunctions.length || changeToIndex < 0){
-    console.log("cannot change to index " + changeToIndex + " as it is out of bounds");
-    return
-  }    
-
-  background(bgColour);
-  loadingIndex = changeToIndex;
-  console.log("Changed to " + loadingFunctions[loadingIndex].name)
-}
 
 // function called when a key is pressed
 function keyTyped() {
@@ -167,6 +100,8 @@ function keyTyped() {
     changeLoadingIcon(loadingIndex+1);
   } else if (key === 'z') {
     changeLoadingIcon(loadingIndex-1);
+  } else if (key === 'd') {
+    changeToRandomLoadingIcon();
   }
 
   if (bgOpacity <= 0){
@@ -178,4 +113,77 @@ function keyTyped() {
   console.log("speed = " + globalSpeed + ", opacity = " + bgOpacity)
 }
 
+// function to draw slider
+function drawSlider(x, s, min, max, f){
+  stroke(loadingColour)
+  color(loadingColour)
+  line(min, sliderPosY, max, sliderPosY)
+  noStroke()
+  fill(f)
+  circle(x, sliderPosY, s)
+  stroke(1)
+}
 
+// Mouse Pressed Event Listener
+function mousePressed() {
+  // Check if mouse is inside the circle
+  //rect(windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW
+  // if (mouseX > (windowWidth - 2*buttonW - bordebuttonW) && mouseX < (windowWidth - bordebuttonW)) {
+  //   if (mouseY > (windowHeight - 2*buttonH - bordebuttonW) && mouseY < (windowHeight - bordebuttonW)) {
+  //     changeBackground()
+  //   }
+  // }
+  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < loadingSize){
+    changeBackground()
+  }
+
+  // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
+  //   sliderFill = 180
+  // }
+}
+
+
+// function to change the background of colour
+function changeBackground() {
+  if (blackBG) {
+    bgColour = 0;
+    loadingColour = 255;
+    blackBG = false
+  } else if (!blackBG){
+    bgColour = 255;
+    loadingColour = 0;
+    blackBG = true
+  }
+}
+
+// function to prepare the change of the loading icon
+// param: changeToIndex - loadingIcon index to change to
+function changeLoadingIcon(changeToIndex) {
+
+  // if changeToIndex is not valid, exit function
+  if (changeToIndex >= loadingFunctions.length || changeToIndex < 0){
+    console.log("cannot change to index " + changeToIndex + " as it is out of bounds");
+    return
+  }    
+
+  background(bgColour);
+  loadingIndex = changeToIndex;
+  console.log("Changed to " + loadingFunctions[loadingIndex].name)
+}
+
+// function to change of the loading icon to a random of the set
+function changeToRandomLoadingIcon(){
+  var randomIndex = int(random(0, loadingFunctions.length));
+  changeLoadingIcon(randomIndex);
+}
+
+
+/* -------------------------------
+-----------------------------------
+NOTES
+-----------------------------------
+
+Things to Consider:
+- Hierarchical Modelling
+- Slider for Speed and Opacity
+----------------------------------*/
