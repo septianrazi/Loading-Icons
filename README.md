@@ -85,9 +85,9 @@ p5.js script that showcases different cyclical loading animations. Loading Icons
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-This repository allows you to use custom gestures to trigger events using Microsoft Mixed Reality Toolkit (MRTK). It utilises the inbuild MRTK implementation of Hand Tracking via IMixedRealityHandPose to detect positions of joints to a custom gesture.
+<!-- This repository allows you to use custom gestures to trigger events using Microsoft Mixed Reality Toolkit (MRTK). It utilises the inbuild MRTK implementation of Hand Tracking via IMixedRealityHandPose to detect positions of joints to a custom gesture.
 
-Inspired by [Oculus Custom Hand Pose tutorial by Valem](https://www.youtube.com/watch?v=Iphbtuhun-8)
+Inspired by [Oculus Custom Hand Pose tutorial by Valem](https://www.youtube.com/watch?v=Iphbtuhun-8) -->
 
 ### Built With
 
