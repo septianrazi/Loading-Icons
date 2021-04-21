@@ -83,11 +83,7 @@ p5.js script that showcases different cyclical loading animations. Loading Icons
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
-
-<!-- This repository allows you to use custom gestures to trigger events using Microsoft Mixed Reality Toolkit (MRTK). It utilises the inbuild MRTK implementation of Hand Tracking via IMixedRealityHandPose to detect positions of joints to a custom gesture.
-
-Inspired by [Oculus Custom Hand Pose tutorial by Valem](https://www.youtube.com/watch?v=Iphbtuhun-8) -->
+This p5.js script compiles a collection of cyclical loading animations. These animations are kept deliberately simple by using only primitive shapes of a monochrome color. 
 
 ### Built With
 
@@ -97,14 +93,11 @@ Inspired by [Oculus Custom Hand Pose tutorial by Valem](https://www.youtube.com/
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-
 ### Prerequisites
 
-To run it locally, you will have to run the website on a live server so that the javascript components can run. I like to use VSCode and its associated extensions.
+To run it locally, you will have to run the website on a live server so that the javascript components can run. I like to use VSCode and its associated extensions to accomplish this.
 
 ### Running via VSCode
-
 
 1. Clone the repo
    ```sh
@@ -112,7 +105,7 @@ To run it locally, you will have to run the website on a live server so that the
    ```
 2. Download and Install VSCode [https://code.visualstudio.com/](https://code.visualstudio.com/)
 3. In VSCode, install the Live Server Extention 
-4. Run project on live server
+4. Run project on live server (Ctrl+Shift+P to open the command palette, then find "Live Server")
 
 Or, you can view an example by [clicking here](https://septianrazi.github.io/Loading-Icons/).
 
@@ -127,22 +120,39 @@ _For more examples, please refer to the [Documentation](https://example.com)_ --
 
 
 <!-- ROADMAP -->
-<!-- ## Roadmap
+## Roadmap
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues). -->
+See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a list of proposed features (and known issues).
 
 
 
 <!-- CONTRIBUTING -->
-<!-- ## Contributing
+## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
+You can contribute in mainly two ways;
+
+### Adding / Tweaking an Existing Loading Animation
+
+To add a loading animation you will need to do the following things:
+
+1. Fork the Project
+2. Create a branch for your new loading animation (`git checkout -b feature/CoolLoadingAnimation`)
+1. Write the function in the [loadingFunctions.js](/loadingFunctions.js) file
+2. Insert the name of the function you just created into the loadingFunctions array in loadingFunctions.js
+3. Commit your Changes (`git commit -m 'Added CoolLoadingAnimation function'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Resolving an general program issue or adding a general feature
+
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Write the code for the feature
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request -->
+5. Open a Pull Request
 
 
 
@@ -164,6 +174,7 @@ Project Link: [https://github.com/septianrazi/Loading-Icons](https://github.com/
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
+* [p5.js](https://p5js.org/)
 * [OthNeilDrew's README Template](https://github.com/othneildrew/Best-README-Template)
 <!-- 
 * [Img Shields](https://shields.io)
