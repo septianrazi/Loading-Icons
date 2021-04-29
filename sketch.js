@@ -34,6 +34,9 @@ var globalSpeed = 0.10;     // speed of loading animations
 // loading animation selection variables
 var loadingIndex = 1; // Loading Function Index to be played from the loadingFunctions Array
 
+// Global Access of the buttons used in program
+var colourButton;
+var randomButton;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -191,6 +194,12 @@ function mousePressed() {
 
   if (randomButton.checkInBounds(mouseX, mouseY))
     changeToRandomLoadingIcon()
+
+  if (colourButton.checkInBounds(mouseX, mouseY))
+    console.log("COLOUR BUTTON CLICKED")
+
+  if (randomButton.checkInBounds(mouseX, mouseY))
+    console.log("RANDOM BUTTON CLICKED")
 
   // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
   //   sliderFill = 180
