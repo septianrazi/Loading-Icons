@@ -3,7 +3,6 @@ Loading Icons P5 Project
 Septian Razi , 2019
 ----------------------------------*/
 
-
 var bgColour = 255
 var loadingColour = 0
 var bordebuttonW = 10 // border width for bleed
@@ -26,10 +25,18 @@ var globalSpeed = 0.10;
 // Loading Function Index to be played from the loadingFunctions Array
 var loadingIndex = 1;
 
+// Global Access of the buttons used in program
+var colourButton;
+var randomButton;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   sliderPosY = windowHeight - bordebuttonW - buttonH
+  // slider = createSlider(0, 255, 127);
+
+  colourButton = new RectButtonWithText(loadingColour, windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW, buttonW, buttonH, "Colour", bgColour);
+  randomButton = new RectButtonWithText(loadingColour, windowWidth - 3*buttonW - 2*bordebuttonW, windowHeight - buttonH - bordebuttonW, buttonW, buttonH, debug, bgColour);
+
 }
 
 function draw() {
@@ -40,16 +47,10 @@ function draw() {
   strokeWeight(0.5);
 
   // Button 1
-  fill(loadingColour);
-  rect(windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW, buttonW, buttonH, 10);
-  fill(bgColour);
-  text("Colour", windowWidth - buttonW - bordebuttonW, windowHeight - buttonH - bordebuttonW);
+  colourButton.draw(loadingColour, bgColour);
 
   // Button 2
-  fill(loadingColour);
-  rect(windowWidth - 3*buttonW - 2*bordebuttonW, windowHeight - buttonH - bordebuttonW, buttonW, buttonH, 10);
-  fill(bgColour);
-  text(debug, windowWidth - 3*buttonW - 2*bordebuttonW, windowHeight - buttonH - bordebuttonW);
+  randomButton.draw(loadingColour, bgColour);
   
   // Mouse Position Text
   fill(150);
@@ -59,7 +60,6 @@ function draw() {
   // fill(225)
   // drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
 
-
   fill(loadingColour)
   stroke(loadingColour)
   translate(windowWidth/2, windowHeight/2);
@@ -67,6 +67,53 @@ function draw() {
   loadingFunctions[loadingIndex](globalSpeed);
 
   //strokeWeight(1)
+}
+
+// Class to represent a button with text
+class RectButtonWithText {
+
+  constructor(buttonColour, buttonX, buttonY, buttonW, buttonH, inputText, textColour) {
+    this.buttonColour = buttonColour;
+    this.buttonX = buttonX;
+    this.buttonY = buttonY;
+    this.buttonW = buttonW;
+    this.buttonH = buttonH;
+    this.inputText = inputText;
+    this.textColour = textColour;
+  }
+
+  // method to draw the actual button given
+  // param: buttonColour and textColour (0 - 255 integer)
+  draw(buttonColour, textColour) {
+    fill(buttonColour);
+    rect(this.buttonX, this.buttonY, this.buttonW, this.buttonH, 10);
+    fill(textColour);
+    text(this.inputText, this.buttonX, this.buttonY);
+  }
+
+  // finds whether a given position is within the bounds of this button
+  // param: x and y positions
+  // returns true is within, false if outside
+  // useful for mouseClicked events
+  checkInBounds(x, y) {
+    if (this.buttonX - this.buttonW < x && x < this.buttonX + this.buttonW)
+      if (this.buttonY - this.buttonH < y && y < this.buttonY + this.buttonH)
+        return true;
+      
+    return false;
+  }
+}
+
+
+// function to draw slider
+function drawSlider(x, s, min, max, f){
+  stroke(loadingColour)
+  color(loadingColour)
+  line(min, sliderPosY, max, sliderPosY)
+  noStroke()
+  fill(f)
+  circle(x, sliderPosY, s)
+  stroke(1)
 }
 
 
@@ -113,17 +160,6 @@ function keyTyped() {
   console.log("speed = " + globalSpeed + ", opacity = " + bgOpacity)
 }
 
-// function to draw slider
-function drawSlider(x, s, min, max, f){
-  stroke(loadingColour)
-  color(loadingColour)
-  line(min, sliderPosY, max, sliderPosY)
-  noStroke()
-  fill(f)
-  circle(x, sliderPosY, s)
-  stroke(1)
-}
-
 // Mouse Pressed Event Listener
 function mousePressed() {
   // Check if mouse is inside the circle
@@ -137,11 +173,16 @@ function mousePressed() {
     changeBackground()
   }
 
+  if (colourButton.checkInBounds(mouseX, mouseY))
+    console.log("COLOUR BUTTON CLICKED")
+
+  if (randomButton.checkInBounds(mouseX, mouseY))
+    console.log("RANDOM BUTTON CLICKED")
+
   // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
   //   sliderFill = 180
   // }
 }
-
 
 // function to change the background of colour
 function changeBackground() {
