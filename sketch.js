@@ -28,11 +28,15 @@ var blackBG = true
 var bgOpacity = 100
 
 // other loading icon variables
-var loadingSize = 150       // Size of Loading animation Icon
+var loadingSize = 70       // Size of Loading animation Icon
+var sizes = {
+  movement: 70,
+  shape: 70
+}
 var globalSpeed = 0.10;     // speed of loading animations 
 
 // loading animation selection variables
-var loadingIndex = 1; // Loading Function Index to be played from the loadingFunctions Array
+var loadingIndex = 26; // Loading Function Index to be played from the loadingFunctions Array
 
 // Global Access of the buttons used in program
 var colourButton;
@@ -118,13 +122,22 @@ class RectButtonWithText {
 // function to draw all the debug text on the screen
 function drawDebugText() {
   push()
+  // background rect so text is still visible even under high opacity
+  fill(bgColour)
+  noStroke()
+  rect(0,0, windowWidth/8, windowHeight/5)
+  
   // Text
   fill(150);
   strokeWeight(0);
   textAlign(LEFT, CENTER);
   text('x: ' + Math.round(mouseX) + ' y: ' + Math.round(mouseY), borderButtonWidth, borderButtonWidth);
-  text('speed: ' + globalSpeed.toFixed(3), borderButtonWidth, borderButtonWidth + 20);
-  text('opacity: ' + bgOpacity, borderButtonWidth, borderButtonWidth + 40);
+  text('speed:\t' + globalSpeed.toFixed(3), borderButtonWidth, borderButtonWidth + 20);
+  text('opacity:\t' + bgOpacity, borderButtonWidth, borderButtonWidth + 40);
+  text('shape size:\t' + sizes.shape, borderButtonWidth, borderButtonWidth + 60);
+  text('movement size:\t' + sizes.movement, borderButtonWidth, borderButtonWidth + 80);
+
+
   pop()
 }
 
@@ -170,8 +183,16 @@ function keyTyped() {
     changeLoadingIcon(loadingIndex+1);
   } else if (key === 'z') {
     changeLoadingIcon(loadingIndex-1);
-  } else if (key === 'd') {
+  } else if (key === 'r') {
     changeToRandomLoadingIcon();
+  } else if (key === 'a') {
+    sizes.shape -= 5;
+  } else if (key === 's') {
+    sizes.shape += 5;
+  } else if (key === 'd') {
+    sizes.movement -= 5;
+  } else if (key === 'f') {
+    sizes.movement += 5;
   }
 
   if (bgOpacity <= 0){
@@ -180,7 +201,8 @@ function keyTyped() {
     bgOpacity = 255;
   }
 
-  console.log("speed = " + globalSpeed + ", opacity = " + bgOpacity)
+  console.log("speed = " + globalSpeed + ", opacity = " + bgOpacity + 
+  ", ShapeSize = " + sizes.shape + ", MovementSize = " + sizes.movement)
 }
 
 // Mouse Pressed Event Listener
