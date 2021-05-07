@@ -53,9 +53,9 @@ function load28(speed){
   function load27(speed){
     push();
   
-    let x = sin(frameCount * speed) * 50;
-    let y = cos(frameCount * speed/2) * 100;
-    ellipse(x,y, 25 , 25);
+    let x = sin(frameCount * speed) * sizes.movement/2;
+    let y = cos(frameCount * speed/2) * sizes.movement;
+    circle(x,y, sizes.shape/2);
     
     pop();
   }
@@ -64,22 +64,18 @@ function load28(speed){
   function load26(speed) {
     push()
   
-    // let change = loadingSize * (tan(cos(((frameCount*speed)))))
-    //line(-loadingSize+change,0,loadingSize-change,0)
     stroke(loadingColour)
-    strokeWeight(10)
+    strokeWeight(sizes.shape/20)
   
     fill(loadingColour)
     push()
     rotate(frameCount*speed * 30/4)
-    line(-200, 0, 200, 0)
-    line(0, -200, 0, 200)
+    line(-sizes.shape, 0, sizes.shape, 0)
+    line(0, -sizes.shape, 0, sizes.shape)
     pop()
     rotate((frameCount*speed * 30/4.1))
-    line(-200, 0, 200, 0)
-    line(0, -200, 0, 200)
-    
-    //circle(change, 0, 50)
+    line(-sizes.shape, 0, sizes.shape, 0)
+    line(0, -sizes.shape, 0, sizes.shape)
 
     pop()
   }
@@ -91,10 +87,10 @@ function load28(speed){
     noStroke()
     rotate(frameCount*speed/3)
   
-    change = (sin(frameCount*speed/5)* 100)
-    change2 = (cos(frameCount*speed/5)* 100)
-    rect(-100, 0, change, change)
-    rect(100, 0, change2, change2)
+    change = (sin(frameCount*speed/5)* sizes.movement)
+    change2 = (cos(frameCount*speed/5)* sizes.movement)
+    rect(-sizes.movement, 0, change, change)
+    rect(sizes.movement, 0, change2, change2)
     
   
     pop()
@@ -107,10 +103,10 @@ function load28(speed){
     noStroke()
     rotate(frameCount*speed/3)
   
-    change = (sin(frameCount*speed/5)* 100)
-    change2 = (cos(frameCount*speed/5)* 100)
-    ellipse(-50,0,change)
-    ellipse(50,0,change2)
+    change = (sin(frameCount*speed/5)* sizes.movement)
+    change2 = (cos(frameCount*speed/5)* sizes.movement)
+    ellipse(-sizes.movement/2,0,change)
+    ellipse(sizes.movement/2,0,change2)
   
     pop()
   }
@@ -119,7 +115,7 @@ function load28(speed){
   function load23(speed) {
     push()
   
-    change = (sin(frameCount*speed/5)* 100)
+    change = (sin(frameCount*speed/5)* sizes.movement)
     ellipse(0,0,change)
   
     pop()
@@ -129,12 +125,12 @@ function load28(speed){
   function load22(speed) {
     push()
   
-    change = (sin(frameCount*speed/5)* 50)
-    change2 = (tan(frameCount*speed/5)* 50)
+    change = (sin(frameCount*speed/5)* sizes.movement)
+    change2 = (tan(frameCount*speed/5)* sizes.movement)
     rotate(frameCount*speed/23)
     translate(change, 0)
     translate(0, change2)
-    ellipse(0,0,30)
+    ellipse(0,0,sizes.shape)
   
     pop()
   }
@@ -142,17 +138,16 @@ function load28(speed){
   //Floral Pattern
   function load21(speed) {
     push()
-    // speed = 0.005
+
     noStroke()
-    // bgOpacity = 50
     change = (frameCount*speed)
   
   
     rotate(change/10)
     push()
-    translate(100,0)
+    translate(sizes.movement,0)
     rotate(change)
-    ellipse(0,20,20)
+    ellipse(0,sizes.shape/3,sizes.shape/3)
   
     pop()
   }
@@ -166,42 +161,11 @@ function load28(speed){
     change = tan(frameCount*speed/10)
     rotate(change)
     if (change < 3){
-      rect(0,0,50+change,50+change)
+      rect(0,0,sizes.shape + change,sizes.shape+change)
     } else if (change > 3){
-      rect(0,0,50+change,50+change, 3*change, 3*change)
+      rect(0,0,sizes.shape+change,sizes.shape+change, 3*change, 3*change)
     }
   
-    // console.log(change)
-    pop()
-  }
-  //Square rev up
-  function load20(speed) {
-    push()
-    // speed = 0.005
-    noStroke()
-    // bgOpacity = 50
-    change = tan(frameCount*speed/10)
-    rotate(change)
-    if (change < 3){
-      rect(0,0,50+change,50+change)
-    } else if (change > 3){
-      rect(0,0,50+change,50+change, 3*change, 3*change)
-    }
-  
-    // console.log(change)
-    pop()
-  }
-  
-  //Square rev up
-  function load13(speed) {
-    push()
-    // speed = 0.005
-    noStroke()
-    // bgOpacity = 50
-    change = tan(frameCount*speed/10)
-    rotate(change)
-    rect(0,0,50+change,50+change)
-
     // console.log(change)
     pop()
   }
@@ -209,20 +173,17 @@ function load28(speed){
   // TRIPPY WINDMEEL
   function load19(speed){
     push()
-    let change = loadingSize * ((tan(((frameCount*speed)))))
-    //line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * tan(frameCount*speed)
+
     stroke(loadingColour)
-    strokeWeight(5)
-  
+    strokeWeight(sizes.shape/20)
+
     fill(loadingColour)
     rotate(frameCount*speed * 30/8)
     line(-change, 0, change, 0)
   
-    let change2 = loadingSize * ((tan(((frameCount*speed*2)))))
-    line(0, -change2, 0, change2)
-    //line(-change2, 0, change2, 0)
-    //circle(change, 0, 50)
-  
+    let change2 = sizes.movement * tan(frameCount*speed*2)
+    line(0, -change2, 0, change2) 
   
     pop()
   }
@@ -231,16 +192,14 @@ function load28(speed){
   function load18(speed) {
     push()
   
-    let change = loadingSize * (tan(cos(((frameCount*speed)))))
-    //line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * tan(cos(frameCount*speed))
+
     stroke(loadingColour)
-    strokeWeight(5)
+    strokeWeight(sizes.shape/20)
   
     fill(loadingColour)
     rotate(frameCount*speed * 30/4)
     line(-change, 0, change, 0)
-    
-    //circle(change, 0, 50)
   
     pop()
   }
@@ -249,14 +208,14 @@ function load28(speed){
   function load17(speed) {
     push()
   
-    let change = loadingSize * (cos(((frameCount*speed))))
-    //line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * cos(frameCount*speed)
+
     noStroke()
   
     fill(loadingColour)
     rotate(frameCount*speed*30/4)
-    circle(-change, 0, 50)
-    circle(change, 0, 50)
+    circle(-change, 0, sizes.shape)
+    circle(change, 0, sizes.shape)
   
     // bgOpacity = 50
     
@@ -267,16 +226,14 @@ function load28(speed){
   function load16(speed) {
     push()
   
-    let change = loadingSize * (1/tan(((frameCount*speed))))
-    //line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * (1/tan(frameCount*speed))
+
     noStroke()
   
     fill(loadingColour)
     rotate(frameCount*speed*10)
-    circle(-change, 0, 50,)
-    circle(change, 0, 50)
-  
-  
+    circle(-change, 0, sizes.shape)
+    circle(change, 0, sizes.shape)
     
     pop()
   }
@@ -285,15 +242,47 @@ function load28(speed){
   function load15(speed) {
     push()
   
-    let change = loadingSize * sin(frameCount * speed)
+    let change = sizes.movement * sin(frameCount * speed)
   
     fill(loadingColour)
     translate(-change, 0)
     rotate(frameCount * speed * 20/15)
-    rect(0, 0, 50, 50)
+    rect(0, 0, sizes.shape, sizes.shape)
     
     pop()
   }
+
+    
+  //CIRCLE SPIRAL LOADING
+  function load14(speed) {
+    push()
+  
+    noStroke();
+    let change = sizes.movement * sin(frameCount * speed)
+
+  
+    fill(loadingColour)
+    rotate(frameCount * (speed *1.33))
+    circle(-change, 0, sizes.shape*0.65-change/7)
+    circle(change, 0, sizes.shape*0.65-change/7)
+  
+    pop()
+  }
+
+  //Square rev up
+  function load13(speed) {
+    push()
+    // speed = 0.005
+    noStroke()
+    // bgOpacity = 50
+    change = tan(frameCount*speed/10)
+    rotate(change)
+    rect(0,0,sizes.shape+change,sizes.shape+change)
+
+    // console.log(change)
+    pop()
+  }
+    
   
   //PENDULUM
   function load12(speed) {
@@ -302,11 +291,9 @@ function load28(speed){
     noStroke()
     fill(loadingColour,150)
     for (i = 0; i < 7; i++) {
-      let c = loadingSize * sin(frameCount* 1/(speed*400+i))
-      // let c = loadingSize * sin(frameCount/20+i))
-      // let c = loadingSize * sin(frameCount*(speed-speed/(i+1)))
+      let c = sizes.movement * sin(frameCount* 1/(speed*sizes.movement+i))
   
-      circle(c, 0, 50-i*2)
+      circle(c, 0, sizes.shape - (i*sizes.shape/20) )
     } 
     
     pop()
@@ -319,8 +306,8 @@ function load28(speed){
     noStroke()
     fill(loadingColour,150)
     for (i = 0; i < 7; i++) {
-      let c = loadingSize * cos(i*8*speed + (frameCount * speed))
-      circle(c, 0, 50+i*2)
+      let c = sizes.movement * cos(i*5*speed + (frameCount * speed))
+      circle(c, 0, sizes.shape + (i*sizes.shape/20) )
     }
     
     pop()
@@ -351,39 +338,24 @@ function load28(speed){
       o3 = l[0]
     }
   
-    cSize = loadingSize/2
+    cSize = sizes.shape/2
     fill(loadingColour,o1)
-    circle(-loadingSize,0,cSize)
+    circle(-sizes.shape,0,cSize)
     fill(loadingColour,o2)
     circle(0,0,cSize)
     fill(loadingColour,o3)
-    circle(loadingSize,0,cSize)
+    circle(sizes.shape,0,cSize)
   
     pop()
   }
+
   
-  //CIRCLE SPIRAL LOADING
-  function load14(speed) {
-    push()
-  
-    noStroke();
-    let change = loadingSize * sin(frameCount * speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
-  
-    fill(loadingColour)
-    rotate(frameCount * (speed *1.33))
-    circle(-change, 0, loadingSize*0.65-change/7)
-    circle(change, 0, loadingSize*0.65-change/7)
-  
-    pop()
-  }
-  
-  //SQUARE SPIRAL LOADING
+// NEEDS UPDATING
   function load9(speed) {
     push()
   
-    let change = loadingSize * sin(frameCount * speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.shape * sin(frameCount * speed)
+
   
     fill(loadingColour)
     // rotate(frameCount/15)
@@ -397,23 +369,23 @@ function load28(speed){
   function load8(speed) {
     push()
   
-    let change = loadingSize * sin(frameCount * speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * sin(frameCount * speed)
+
   
     fill(loadingColour,215)
-    rect(-change, 0, 50-change/10,50-change/10)
-    rect(change, 0, 50-change/10,50-change/10)
+    rect(-change, 0, sizes.shape - change/10,sizes.shape-change/10)
+    rect(change, 0, sizes.shape-change/10,sizes.shape-change/10)
   
     pop()
   }
   
-  //SIN STRAIGHT LINE
+  //NEEDS UPDATING
   function load7(speed) {
     push()
   
     strokeWeight(5)
-    let change = loadingSize * sin(frameCount * speed)
-    line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * sin(frameCount * speed)
+    line(-sizes.movement+change,0,sizes.movement-change,0)
     
     pop()
   }
@@ -422,9 +394,9 @@ function load28(speed){
   function load6(speed) {
     push()
   
-    strokeWeight(5)
-    let change = loadingSize * sin(frameCount * speed)
-    line(-loadingSize+change,0,loadingSize-change,0)
+    strokeWeight(sizes.shape/10)
+    let change = sizes.movement * sin(frameCount * speed)
+    line(-sizes.movement+change,0,sizes.movement-change,0)
     
     pop()
   }
@@ -433,9 +405,9 @@ function load28(speed){
   function load5(speed) {
     push()
   
-    strokeWeight(5)
-    let change = loadingSize * sin(frameCount * speed)
-    line(-loadingSize/2+change,0,loadingSize/2-change,0)
+    strokeWeight(sizes.shape/10)
+    let change = sizes.movement * sin(frameCount * speed)
+    line(-sizes.movement/2+change, 0, sizes.movement/2-change,0)
     
     pop()
   }
@@ -447,12 +419,12 @@ function load28(speed){
     strokeWeight(5)
     rotate(frameCount * speed);
    
-    line(-loadingSize,-loadingSize,loadingSize,loadingSize)
+    line(-sizes.shape,-sizes.shape,sizes.shape,sizes.shape)
     
     strokeWeight(5)
     rotate(frameCount * (speed*2/3));
    
-    line(-loadingSize,-loadingSize,loadingSize,loadingSize)
+    line(-sizes.shape,-sizes.shape,sizes.shape,sizes.shape)
   
     pop()
   }
@@ -464,7 +436,7 @@ function load28(speed){
     strokeWeight(5)
     rotate(speed * frameCount);
    
-    line(-loadingSize,-loadingSize,loadingSize,loadingSize)
+    line(-sizes.shape,-sizes.shape,sizes.shape,sizes.shape)
     pop()
   }
   
@@ -475,13 +447,13 @@ function load28(speed){
     noStroke();
     rotate(speed*frameCount);
     let x1 = 0
-    let y1 = 0 - loadingSize/2
+    let y1 = 0 - sizes.shape
   
-    let x2 = 0 - loadingSize/2
-    let y2 = loadingSize/2
+    let x2 = 0 - sizes.shape
+    let y2 = sizes.shape
   
-    let x3 = loadingSize/2
-    let y3 = loadingSize/2
+    let x3 = sizes.shape
+    let y3 = sizes.shape
   
     triangle(x1,y1,x2,y2,x3,y3);
     pop()
@@ -493,7 +465,7 @@ function load28(speed){
   
     noStroke()
     rotate(speed*frameCount);
-    rect(0,0, 70,70);
+    rect(0,0, sizes.shape,sizes.shape);
     
     pop()
   }
