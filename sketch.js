@@ -31,12 +31,12 @@ var bgOpacity = 100
 var loadingSize = 70       // Size of Loading animation Icon
 var sizes = {
   movement: 70,
-  shape: 70
+  shape: 50
 }
 var globalSpeed = 0.10;     // speed of loading animations 
 
 // loading animation selection variables
-var loadingIndex = 26; // Loading Function Index to be played from the loadingFunctions Array
+var loadingIndex = 20; // Loading Function Index to be played from the loadingFunctions Array
 
 // Global Access of the buttons used in program
 var colourButton;

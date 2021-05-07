@@ -174,7 +174,7 @@ function load28(speed){
   function load19(speed){
     push()
     let change = sizes.movement * tan(frameCount*speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
+
     stroke(loadingColour)
     strokeWeight(sizes.shape/20)
 
@@ -193,7 +193,7 @@ function load28(speed){
     push()
   
     let change = sizes.movement * tan(cos(frameCount*speed))
-    //line(-loadingSize+change,0,loadingSize-change,0)
+
     stroke(loadingColour)
     strokeWeight(sizes.shape/20)
   
@@ -209,7 +209,7 @@ function load28(speed){
     push()
   
     let change = sizes.movement * cos(frameCount*speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
+
     noStroke()
   
     fill(loadingColour)
@@ -227,7 +227,7 @@ function load28(speed){
     push()
   
     let change = sizes.movement * (1/tan(frameCount*speed))
-    //line(-loadingSize+change,0,loadingSize-change,0)
+
     noStroke()
   
     fill(loadingColour)
@@ -259,7 +259,7 @@ function load28(speed){
   
     noStroke();
     let change = sizes.movement * sin(frameCount * speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
+
   
     fill(loadingColour)
     rotate(frameCount * (speed *1.33))
@@ -354,8 +354,8 @@ function load28(speed){
   function load9(speed) {
     push()
   
-    let change = loadingSize * sin(frameCount * speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.shape * sin(frameCount * speed)
+
   
     fill(loadingColour)
     // rotate(frameCount/15)
@@ -370,7 +370,7 @@ function load28(speed){
     push()
   
     let change = sizes.movement * sin(frameCount * speed)
-    //line(-loadingSize+change,0,loadingSize-change,0)
+
   
     fill(loadingColour,215)
     rect(-change, 0, sizes.shape - change/10,sizes.shape-change/10)
@@ -384,8 +384,8 @@ function load28(speed){
     push()
   
     strokeWeight(5)
-    let change = loadingSize * sin(frameCount * speed)
-    line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * sin(frameCount * speed)
+    line(-sizes.movement+change,0,sizes.movement-change,0)
     
     pop()
   }
@@ -395,8 +395,8 @@ function load28(speed){
     push()
   
     strokeWeight(sizes.shape/10)
-    let change = loadingSize * sin(frameCount * speed)
-    line(-loadingSize+change,0,loadingSize-change,0)
+    let change = sizes.movement * sin(frameCount * speed)
+    line(-sizes.movement+change,0,sizes.movement-change,0)
     
     pop()
   }
