@@ -52,6 +52,10 @@ function setup() {
   // setup the buttons by initialising RectButtonWithText class
   colourButton = new RectButtonWithText(loadingColour, 0 + buttonW + borderButtonWidth, bottomYPosition, buttonW, buttonH, "Colour", bgColour);
   randomButton = new RectButtonWithText(loadingColour, 0 + 3*buttonW + 2*borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Random', bgColour);
+
+  randomButtonCircle = new CircularButtonWithIcon(loadingColour, 100, 100, 30, true, bgColour);
+  randomButtonCircle2 = new CircularButtonWithIcon(loadingColour, 150, 100, 20, false, bgColour);
+
 }
 
 function draw() {
@@ -69,7 +73,10 @@ function draw() {
 
   // Button 2
   randomButton.draw(loadingColour, bgColour);
-  
+
+  randomButtonCircle.draw(loadingColour, bgColour);
+  randomButtonCircle2.draw(loadingColour, bgColour);
+
   // // Slider
   // fill(225)
   // drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
@@ -81,6 +88,58 @@ function draw() {
   loadingFunctions[loadingIndex](globalSpeed);
 
   //strokeWeight(1)
+}
+
+// Class to represent a circular button with 
+class CircularButtonWithIcon {
+
+  constructor(buttonColour, buttonX, buttonY, buttonD, isPlus, iconColour) {
+    this.buttonColour = buttonColour;
+    this.buttonX = buttonX;
+    this.buttonY = buttonY;
+    this.buttonD = buttonD;
+    this.isPlus = isPlus;
+    this.iconColour = iconColour;
+  }
+
+  // method to draw the actual button given
+  // param: buttonColour and textColour (0 - 255 integer)
+  draw(buttonColour, iconColour) {
+    fill(buttonColour);
+    circle(this.buttonX, this.buttonY, this.buttonD);
+    fill(iconColour);
+
+    if (this.isPlus)
+      this.drawPlus(iconColour,this.buttonX, this.buttonY, this.buttonD)
+    else
+      this.drawMin(iconColour,this.buttonX, this.buttonY, this.buttonD)
+
+    // text(this.inputText, this.buttonX, this.buttonY);
+  }
+
+  drawPlus(iconColour, buttonX, buttonY, buttonD){
+    push()
+    var radius = buttonD/2;
+    rect(this.buttonX, this.buttonY, radius - radius*0.4, radius/6,  radius/10)
+    rect(this.buttonX, this.buttonY, radius/6, radius - radius*0.4,  radius/10)
+
+  }
+
+  drawMin(iconColour, buttonX, buttonY, buttonD){
+    var radius = buttonD/2;
+    rect(this.buttonX, this.buttonY, radius - radius*0.4, radius/6,  radius/10)
+  }
+
+  // finds whether a given position is within the bounds of this button
+  // param: x and y positions
+  // returns true is within, false if outside
+  // useful for mouseClicked events
+  checkInBounds(x, y) {
+    if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD)
+      return true;
+      
+    return false;
+  }
 }
 
 // Class to represent a button with text
@@ -239,6 +298,7 @@ function changeBackground() {
     loadingColour = 0;
     blackBG = true
   }
+  background(bgColour)
 }
 
 // function to prepare the change of the loading icon
