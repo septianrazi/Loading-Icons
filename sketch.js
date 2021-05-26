@@ -65,13 +65,15 @@ function setup() {
   randomButtonCircle = new CircularButtonWithIcon(global.loadingColour, 100, 100, 30, true, global.bgColour);
   randomButtonCircle2 = new CircularButtonWithIcon(global.loadingColour, 150, 100, 20, false, global.bgColour);
 
-  parameterGUI1 = new ParameterEditorGUI('speed', global.speed, global.loadingColour, 300, 400, 70, global.bgColour);
+  parameterGUI1 = new ParameterEditorGUI('speed', 'speed', global.loadingColour, 300, 400, 70, global.bgColour);
 }
 
 function draw() {
   background(global.bgColour,global.bgOpacity);
   drawDebugText();
 
+  ref = "speed";
+  console.log(global[ref])
 
   rectMode(RADIUS);
   textAlign(CENTER, CENTER);
@@ -117,14 +119,17 @@ class ParameterEditorGUI {
     let smallButtonSize = buttonD / 5;
     let bigButtonSize = buttonD / 4;
 
-    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour);
-    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour);
-    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour);
-    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour);
+    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour, this.testEvent);
+    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour, this.testEvent);
+    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour, this.testEvent);
+    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour, this.testEvent);
 
   }
 
 
+  testEvent(){
+    console.log("yeet")
+  }
   draw(loadingColour, bgColour){
     this.minButtonSmall.draw(loadingColour, bgColour);
     this.minButtonBig.draw(loadingColour, bgColour);
@@ -140,18 +145,20 @@ class ParameterEditorGUI {
     fill(loadingColour)
     textSize(this.buttonD/4);
 
-    
     text(this.title, this.buttonX, this.buttonY - this.buttonD/3)
-    
-    text(this.parameter, this.buttonX, this.buttonY)
-    
-    console.log(this.parameter)
 
+    let parameterVal = global[this.parameter];
+    text(parameterVal, this.buttonX, this.buttonY)
+    
     pop()
   }
 
-  checkForEvent(){
-
+  checkForEvent(x, y){
+    console.log("he")
+    this.minButtonSmall.checkForEvent(x, y);
+    this.minButtonBig.checkForEvent(x, y);
+    this.plusButtonSmall.checkForEvent(x, y);
+    this.plusButtonBig.checkForEvent(x, y);
   }
 }
 // Class to represent a circular button with
@@ -202,10 +209,13 @@ class CircularButtonWithIcon {
   // returns true is within, false if outside
   // useful for mouseClicked events
   checkForEvent(x, y) {
+    console.log('check');
+
     if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD)
       this.eventToTrigger();
 
     return false;
+
   }
 }
 
@@ -335,11 +345,16 @@ function keyTyped() {
 // Mouse Pressed Event Listener
 function mousePressed() {
   // Check if mouse is inside the circle
+  console.log("mouse pressed")
+  
   if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < sizes.movement)
     changeBackground()
 
+  parameterGUI1.checkForEvent(mouseX, mouseY);
+
   colourButton.checkForEvent(mouseX, mouseY);
   randomButton.checkForEvent(mouseX, mouseY);
+
 
   // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
   //   sliderFill = 180
