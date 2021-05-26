@@ -21,11 +21,20 @@ var sliderPosMax = 190
 var sliderButtonSize = 20
 var sliderFill = 150
 
-// background colouring variables
-var bgColour = 255
-var loadingColour = 0
-var blackBG = true
-var bgOpacity = 100
+
+
+var global = {
+  
+  speed: 0.10, // speed of the loading animations
+  
+  index: 20, // Loading Function Index to be played from the loadingFunctions Array
+
+  // background colouring variables
+  bgColour: 255,
+  loadingColour: 0,
+  isBlackBG: true,
+  bgOpacity: 100
+}
 
 // other loading icon variables
 var loadingSize = 70       // Size of Loading animation Icon
@@ -33,33 +42,34 @@ var sizes = {
   movement: 70,
   shape: 50
 }
-var globalSpeed = 0.10;     // speed of loading animations 
-
-// loading animation selection variables
-var loadingIndex = 20; // Loading Function Index to be played from the loadingFunctions Array
 
 // Global Access of the buttons used in program
 var colourButton;
 var randomButton;
 
+var parameterGUI1;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+
 
   // setup global variables (that need some p5-specific stuff)
   bottomYPosition = windowHeight - buttonH - borderButtonWidth;
   sliderPosY = windowHeight - borderButtonWidth - buttonH;
 
   // setup the buttons by initialising RectButtonWithText class
-  colourButton = new RectButtonWithText(loadingColour, 0 + buttonW + borderButtonWidth, bottomYPosition, buttonW, buttonH, "Colour", bgColour);
-  randomButton = new RectButtonWithText(loadingColour, 0 + 3*buttonW + 2*borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Random', bgColour);
+  colourButton = new RectButtonWithText(global.loadingColour, 0 + buttonW + borderButtonWidth, bottomYPosition, buttonW, buttonH, "Colour", global.bgColour, changeBackground);
+  randomButton = new RectButtonWithText(global.loadingColour, 0 + 3*buttonW + 2*borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Random', global.bgColour, changeToRandomLoadingIcon);
 
-  randomButtonCircle = new CircularButtonWithIcon(loadingColour, 100, 100, 30, true, bgColour);
-  randomButtonCircle2 = new CircularButtonWithIcon(loadingColour, 150, 100, 20, false, bgColour);
+  randomButtonCircle = new CircularButtonWithIcon(global.loadingColour, 100, 100, 30, true, global.bgColour);
+  randomButtonCircle2 = new CircularButtonWithIcon(global.loadingColour, 150, 100, 20, false, global.bgColour);
 
+  parameterGUI1 = new ParameterEditorGUI('speed', global.speed, global.loadingColour, 300, 400, 70, global.bgColour);
 }
 
 function draw() {
-  background(bgColour,bgOpacity);
+  background(global.bgColour,global.bgOpacity);
   drawDebugText();
 
 
@@ -69,37 +79,93 @@ function draw() {
   strokeWeight(0.5);
 
   // Button 1
-  colourButton.draw(loadingColour, bgColour);
+  colourButton.draw(global.loadingColour, global.bgColour);
 
   // Button 2
-  randomButton.draw(loadingColour, bgColour);
+  randomButton.draw(global.loadingColour, global.bgColour);
 
-  randomButtonCircle.draw(loadingColour, bgColour);
-  randomButtonCircle2.draw(loadingColour, bgColour);
+  randomButtonCircle.draw(global.loadingColour, global.bgColour);
+  randomButtonCircle2.draw(global.loadingColour, global.bgColour);
+
+  parameterGUI1.draw(global.loadingColour, global.bgColour);
 
   // // Slider
   // fill(225)
   // drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
 
-  fill(loadingColour)
-  stroke(loadingColour)
+  fill(global.loadingColour)
+  stroke(global.loadingColour)
   translate(windowWidth/2, windowHeight/2);
- 
-  loadingFunctions[loadingIndex](globalSpeed);
+
+  loadingFunctions[global.index](global.speed);
 
   //strokeWeight(1)
 }
 
-// Class to represent a circular button with 
+class ParameterEditorGUI {
+  constructor(title, parameter, buttonColour, buttonX, buttonY, buttonD, iconColour) {
+    this.title = title;
+    this.parameter = parameter;
+    
+    this.buttonColour = buttonColour;
+    this.buttonX = buttonX;
+    this.buttonY = buttonY;
+    this.buttonD = buttonD;
+    this.iconColour = iconColour;
+
+    let offset = buttonD/2.5;
+    let smallButtonSize = buttonD / 5;
+    let bigButtonSize = buttonD / 4;
+
+    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour);
+    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour);
+    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour);
+    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour);
+
+  }
+
+
+  draw(loadingColour, bgColour){
+    this.minButtonSmall.draw(loadingColour, bgColour);
+    this.minButtonBig.draw(loadingColour, bgColour);
+    this.plusButtonSmall.draw(loadingColour, bgColour);
+    this.plusButtonBig.draw(loadingColour, bgColour);
+
+    this.drawText(loadingColour)
+  }
+
+  drawText(loadingColour){
+    push()
+
+    fill(loadingColour)
+    textSize(this.buttonD/4);
+
+    
+    text(this.title, this.buttonX, this.buttonY - this.buttonD/3)
+    
+    text(this.parameter, this.buttonX, this.buttonY)
+    
+    console.log(this.parameter)
+
+    pop()
+  }
+
+  checkForEvent(){
+
+  }
+}
+// Class to represent a circular button with
 class CircularButtonWithIcon {
 
-  constructor(buttonColour, buttonX, buttonY, buttonD, isPlus, iconColour) {
+  constructor(buttonColour, buttonX, buttonY, buttonD, isPlus, iconColour, eventToTrigger) {
     this.buttonColour = buttonColour;
     this.buttonX = buttonX;
     this.buttonY = buttonY;
     this.buttonD = buttonD;
     this.isPlus = isPlus;
     this.iconColour = iconColour;
+    this.eventToTrigger = eventToTrigger;
+
   }
 
   // method to draw the actual button given
@@ -107,6 +173,7 @@ class CircularButtonWithIcon {
   draw(buttonColour, iconColour) {
     fill(buttonColour);
     circle(this.buttonX, this.buttonY, this.buttonD);
+    
     fill(iconColour);
 
     if (this.isPlus)
@@ -130,14 +197,14 @@ class CircularButtonWithIcon {
     rect(this.buttonX, this.buttonY, radius - radius*0.4, radius/6,  radius/10)
   }
 
-  // finds whether a given position is within the bounds of this button
+  // finds whether a given position is within the bounds of this button and triggers associated Event
   // param: x and y positions
   // returns true is within, false if outside
   // useful for mouseClicked events
-  checkInBounds(x, y) {
+  checkForEvent(x, y) {
     if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD)
-      return true;
-      
+      this.eventToTrigger();
+
     return false;
   }
 }
@@ -145,7 +212,7 @@ class CircularButtonWithIcon {
 // Class to represent a button with text
 class RectButtonWithText {
 
-  constructor(buttonColour, buttonX, buttonY, buttonW, buttonH, inputText, textColour) {
+  constructor(buttonColour, buttonX, buttonY, buttonW, buttonH, inputText, textColour, eventToTrigger) {
     this.buttonColour = buttonColour;
     this.buttonX = buttonX;
     this.buttonY = buttonY;
@@ -153,6 +220,7 @@ class RectButtonWithText {
     this.buttonH = buttonH;
     this.inputText = inputText;
     this.textColour = textColour;
+    this.eventToTrigger = eventToTrigger;
   }
 
   // method to draw the actual button given
@@ -164,15 +232,15 @@ class RectButtonWithText {
     text(this.inputText, this.buttonX, this.buttonY);
   }
 
-  // finds whether a given position is within the bounds of this button
+  // finds whether a given position is within the bounds of this button and triggers associated Event
   // param: x and y positions
   // returns true is within, false if outside
   // useful for mouseClicked events
-  checkInBounds(x, y) {
+  checkForEvent(x, y) {
     if (this.buttonX - this.buttonW < x && x < this.buttonX + this.buttonW)
       if (this.buttonY - this.buttonH < y && y < this.buttonY + this.buttonH)
-        return true;
-      
+        this.eventToTrigger();
+
     return false;
   }
 }
@@ -182,17 +250,17 @@ class RectButtonWithText {
 function drawDebugText() {
   push()
   // background rect so text is still visible even under high opacity
-  fill(bgColour)
+  fill(global.bgColour)
   noStroke()
   rect(0,0, windowWidth/8, windowHeight/5)
-  
+
   // Text
   fill(150);
   strokeWeight(0);
   textAlign(LEFT, CENTER);
   text('x: ' + Math.round(mouseX) + ' y: ' + Math.round(mouseY), borderButtonWidth, borderButtonWidth);
-  text('speed:\t' + globalSpeed.toFixed(3), borderButtonWidth, borderButtonWidth + 20);
-  text('opacity:\t' + bgOpacity, borderButtonWidth, borderButtonWidth + 40);
+  text('speed:\t' + global.speed.toFixed(3), borderButtonWidth, borderButtonWidth + 20);
+  text('opacity:\t' + global.bgOpacity, borderButtonWidth, borderButtonWidth + 40);
   text('shape size:\t' + sizes.shape, borderButtonWidth, borderButtonWidth + 60);
   text('movement size:\t' + sizes.movement, borderButtonWidth, borderButtonWidth + 80);
 
@@ -202,8 +270,8 @@ function drawDebugText() {
 
 // function to draw slider
 function drawSlider(x, s, min, max, f){
-  stroke(loadingColour)
-  color(loadingColour)
+  stroke(global.loadingColour)
+  color(global.loadingColour)
   line(min, sliderPosY, max, sliderPosY)
   noStroke()
   fill(f)
@@ -216,32 +284,32 @@ function drawSlider(x, s, min, max, f){
 function keyTyped() {
   // keys to alter speed
   if (key === '=') {
-    globalSpeed = globalSpeed + 0.02;
+    global.speed = global.speed + 0.02;
   } else if (key === ']') {
-    globalSpeed = globalSpeed + 0.001;
+    global.speed = global.speed + 0.001;
   } else if (key === '-') {
-    globalSpeed = globalSpeed - 0.02;
+    global.speed = global.speed - 0.02;
   } else if (key === '[') {
-    globalSpeed = globalSpeed - 0.001;
+    global.speed = global.speed - 0.001;
   }
-  if (globalSpeed <= 0){
-    globalSpeed = 0;
+  if (global.speed <= 0){
+    global.speed = 0;
   }
 
 
   //keys to alter background opacity
   if (key === 'w') {
-    bgOpacity = bgOpacity + 10;
+    global.bgOpacity = global.bgOpacity + 10;
   } else if (key === 'q') {
-    bgOpacity = bgOpacity - 10;
+    global.bgOpacity = global.bgOpacity - 10;
   } else if (key === '2') {
-    bgOpacity = bgOpacity + 50;
+    global.bgOpacity = global.bgOpacity + 50;
   } else if (key === '1') {
-    bgOpacity = bgOpacity - 50;
+    global.bgOpacity = global.bgOpacity - 50;
   } else if (key === 'x') {
-    changeLoadingIcon(loadingIndex+1);
+    changeLoadingIcon(global.index+1);
   } else if (key === 'z') {
-    changeLoadingIcon(loadingIndex-1);
+    changeLoadingIcon(global.index-1);
   } else if (key === 'r') {
     changeToRandomLoadingIcon();
   } else if (key === 'a') {
@@ -254,33 +322,24 @@ function keyTyped() {
     sizes.movement += 5;
   }
 
-  if (bgOpacity <= 0){
-    bgOpacity = 0;
-  } else if (bgOpacity > 255){
-    bgOpacity = 255;
+  if (global.bgOpacity <= 0){
+    global.bgOpacity = 0;
+  } else if (global.bgOpacity > 255){
+    global.bgOpacity = 255;
   }
 
-  console.log("speed = " + globalSpeed + ", opacity = " + bgOpacity + 
+  console.log("speed = " + global.speed + ", opacity = " + global.bgOpacity +
   ", ShapeSize = " + sizes.shape + ", MovementSize = " + sizes.movement)
 }
 
 // Mouse Pressed Event Listener
 function mousePressed() {
   // Check if mouse is inside the circle
-  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < loadingSize)
-    changeBackground()
-  
-  if (colourButton.checkInBounds(mouseX, mouseY))
+  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < sizes.movement)
     changeBackground()
 
-  if (randomButton.checkInBounds(mouseX, mouseY))
-    changeToRandomLoadingIcon()
-
-  if (colourButton.checkInBounds(mouseX, mouseY))
-    console.log("COLOUR BUTTON CLICKED")
-
-  if (randomButton.checkInBounds(mouseX, mouseY))
-    console.log("RANDOM BUTTON CLICKED")
+  colourButton.checkForEvent(mouseX, mouseY);
+  randomButton.checkForEvent(mouseX, mouseY);
 
   // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
   //   sliderFill = 180
@@ -289,16 +348,16 @@ function mousePressed() {
 
 // function to change the background of colour
 function changeBackground() {
-  if (blackBG) {
-    bgColour = 0;
-    loadingColour = 255;
-    blackBG = false
-  } else if (!blackBG){
-    bgColour = 255;
-    loadingColour = 0;
-    blackBG = true
+  if (global.isBlackBG) {
+    global.bgColour = 0;
+    global.loadingColour = 255;
+    global.isBlackBG = false
+  } else if (!global.isBlackBG){
+    global.bgColour = 255;
+    global.loadingColour = 0;
+    global.isBlackBG = true
   }
-  background(bgColour)
+  background(global.bgColour)
 }
 
 // function to prepare the change of the loading icon
@@ -309,11 +368,11 @@ function changeLoadingIcon(changeToIndex) {
   if (changeToIndex >= loadingFunctions.length || changeToIndex < 0){
     console.log("cannot change to index " + changeToIndex + " as it is out of bounds");
     return
-  }    
+  }
 
-  background(bgColour);
-  loadingIndex = changeToIndex;
-  console.log("Changed to " + loadingFunctions[loadingIndex].name)
+  background(global.bgColour);
+  global.index = changeToIndex;
+  console.log("Changed to " + loadingFunctions[global.index].name)
 }
 
 // function to change of the loading icon to a random of the set
