@@ -72,8 +72,8 @@ function draw() {
   background(global.bgColour,global.bgOpacity);
   drawDebugText();
 
-  ref = "speed";
-  console.log(global[ref])
+  // ref = "speed";
+  // console.log(global[ref])
 
   rectMode(RADIUS);
   textAlign(CENTER, CENTER);
@@ -119,17 +119,33 @@ class ParameterEditorGUI {
     let smallButtonSize = buttonD / 5;
     let bigButtonSize = buttonD / 4;
 
-    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour, this.testEvent);
-    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour, this.testEvent);
-    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour, this.testEvent);
-    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour, this.testEvent);
+    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour, this.eventDecSmall);
+    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour, this.eventDecBig);
+    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour, this.eventIncSmall);
+    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour, this.eventIncBig);
 
   }
 
-
-  testEvent(){
-    console.log("yeet")
+  eventIncSmall(){
+    global[this.parameter] = global[this.parameter] + 0.1;
   }
+
+  eventIncBig(){
+    global[this.parameter] = global[this.parameter] + 0.5;
+    console.log(this.title)
+    console.log(this.parameter)
+    console.log(global[this.parameter])
+  }
+
+  eventDecSmall(){
+    global[this.parameter] = global[this.parameter] - 0.1;
+  }
+
+  eventDecSmall(){
+    global[this.parameter] = global[this.parameter] - 0.5;
+    console.log(global[this.parameter])
+  }
+  
   draw(loadingColour, bgColour){
     this.minButtonSmall.draw(loadingColour, bgColour);
     this.minButtonBig.draw(loadingColour, bgColour);
@@ -154,7 +170,7 @@ class ParameterEditorGUI {
   }
 
   checkForEvent(x, y){
-    console.log("he")
+    console.log("checkingEvents for small ones")
     this.minButtonSmall.checkForEvent(x, y);
     this.minButtonBig.checkForEvent(x, y);
     this.plusButtonSmall.checkForEvent(x, y);
@@ -211,8 +227,10 @@ class CircularButtonWithIcon {
   checkForEvent(x, y) {
     console.log('check');
 
-    if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD)
+    if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD){
+      console.log('triggeringEvent' + this.eventToTrigger);
       this.eventToTrigger();
+    }
 
     return false;
 
