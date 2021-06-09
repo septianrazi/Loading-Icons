@@ -25,7 +25,7 @@ var sliderFill = 150
 
 var global = {
   
-  speed: 0.10, // speed of the loading animations
+  speed: 10, // speed of the loading animations
   
   index: 20, // Loading Function Index to be played from the loadingFunctions Array
 
@@ -62,10 +62,9 @@ function setup() {
   colourButton = new RectButtonWithText(global.loadingColour, 0 + buttonW + borderButtonWidth, bottomYPosition, buttonW, buttonH, "Colour", global.bgColour, changeBackground);
   randomButton = new RectButtonWithText(global.loadingColour, 0 + 3*buttonW + 2*borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Random', global.bgColour, changeToRandomLoadingIcon);
 
-  randomButtonCircle = new CircularButtonWithIcon(global.loadingColour, 100, 100, 30, true, global.bgColour);
-  randomButtonCircle2 = new CircularButtonWithIcon(global.loadingColour, 150, 100, 20, false, global.bgColour);
+  speedParameterGUI = new ParameterEditorGUI('speed', 'speed', global.loadingColour, 300, 400, 70, global.bgColour);
+  opacityParameterGUI = new ParameterEditorGUI('opacity', 'bgOpacity', global.loadingColour, 300, 500, 70, global.bgColour);
 
-  parameterGUI1 = new ParameterEditorGUI('speed', 'speed', global.loadingColour, 300, 400, 70, global.bgColour);
 }
 
 function draw() {
@@ -86,10 +85,9 @@ function draw() {
   // Button 2
   randomButton.draw(global.loadingColour, global.bgColour);
 
-  randomButtonCircle.draw(global.loadingColour, global.bgColour);
-  randomButtonCircle2.draw(global.loadingColour, global.bgColour);
 
-  parameterGUI1.draw(global.loadingColour, global.bgColour);
+  speedParameterGUI.draw(global.loadingColour, global.bgColour);
+  opacityParameterGUI.draw(global.loadingColour, global.bgColour);
 
   // // Slider
   // fill(225)
@@ -99,7 +97,7 @@ function draw() {
   stroke(global.loadingColour)
   translate(windowWidth/2, windowHeight/2);
 
-  loadingFunctions[global.index](global.speed);
+  loadingFunctions[global.index](global.speed / 100);
 
   //strokeWeight(1)
 }
@@ -115,13 +113,13 @@ class ParameterEditorGUI {
     this.buttonD = buttonD;
     this.iconColour = iconColour;
 
-    let offset = buttonD/2.5;
+    let offset = buttonD/2;
     let smallButtonSize = buttonD / 5;
     let bigButtonSize = buttonD / 4;
 
-    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour, this.eventDecSmall, this.parameter);
+    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 1.75, buttonY, smallButtonSize, false, iconColour, this.eventDecSmall, this.parameter);
     this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour, this.eventDecBig, this.parameter);
-    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour, this.eventIncSmall, this.parameter);
+    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 1.75, buttonY, smallButtonSize, true, iconColour, this.eventIncSmall, this.parameter);
     this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour, this.eventIncBig, this.parameter);
 
   }
@@ -160,7 +158,7 @@ class ParameterEditorGUI {
 
     text(this.title, this.buttonX, this.buttonY - this.buttonD/3)
 
-    let parameterVal = global[this.parameter];
+    let parameterVal = Number.parseFloat(global[this.parameter]).toPrecision(3);
     text(parameterVal, this.buttonX, this.buttonY)
     
     pop()
@@ -287,7 +285,7 @@ function drawDebugText() {
   strokeWeight(0);
   textAlign(LEFT, CENTER);
   text('x: ' + Math.round(mouseX) + ' y: ' + Math.round(mouseY), borderButtonWidth, borderButtonWidth);
-  text('speed:\t' + global.speed.toFixed(3), borderButtonWidth, borderButtonWidth + 20);
+  text('speed:\t' + global.speed, borderButtonWidth, borderButtonWidth + 20);
   text('opacity:\t' + global.bgOpacity, borderButtonWidth, borderButtonWidth + 40);
   text('shape size:\t' + sizes.shape, borderButtonWidth, borderButtonWidth + 60);
   text('movement size:\t' + sizes.movement, borderButtonWidth, borderButtonWidth + 80);
@@ -312,13 +310,13 @@ function drawSlider(x, s, min, max, f){
 function keyTyped() {
   // keys to alter speed
   if (key === '=') {
-    global.speed = global.speed + 0.02;
+    global.speed = global.speed + 2;
   } else if (key === ']') {
-    global.speed = global.speed + 0.001;
+    global.speed = global.speed + 0.1;
   } else if (key === '-') {
-    global.speed = global.speed - 0.02;
+    global.speed = global.speed - 2;
   } else if (key === '[') {
-    global.speed = global.speed - 0.001;
+    global.speed = global.speed - 0.1;
   }
   if (global.speed <= 0){
     global.speed = 0;
@@ -368,7 +366,8 @@ function mousePressed() {
   if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < sizes.movement)
     changeBackground()
 
-  parameterGUI1.checkForEvent(mouseX, mouseY);
+    opacityParameterGUI.checkForEvent(mouseX, mouseY);
+    speedParameterGUI.checkForEvent(mouseX, mouseY);
 
   colourButton.checkForEvent(mouseX, mouseY);
   randomButton.checkForEvent(mouseX, mouseY);
