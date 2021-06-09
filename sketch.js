@@ -119,31 +119,28 @@ class ParameterEditorGUI {
     let smallButtonSize = buttonD / 5;
     let bigButtonSize = buttonD / 4;
 
-    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour, this.eventDecSmall);
-    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour, this.eventDecBig);
-    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour, this.eventIncSmall);
-    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour, this.eventIncBig);
+    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 2, buttonY, smallButtonSize, false, iconColour, this.eventDecSmall, this.parameter);
+    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour, this.eventDecBig, this.parameter);
+    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 2, buttonY, smallButtonSize, true, iconColour, this.eventIncSmall, this.parameter);
+    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour, this.eventIncBig, this.parameter);
 
   }
 
-  eventIncSmall(){
-    global[this.parameter] = global[this.parameter] + 0.1;
+  eventIncSmall(parameterName){
+    global[parameterName] = global[parameterName] + 0.1;
   }
 
-  eventIncBig(){
-    global[this.parameter] = global[this.parameter] + 0.5;
-    console.log(this.title)
-    console.log(this.parameter)
-    console.log(global[this.parameter])
+  eventIncBig(parameterName){
+    global[parameterName] = global[parameterName] + 0.5;
   }
 
-  eventDecSmall(){
-    global[this.parameter] = global[this.parameter] - 0.1;
+  eventDecSmall(parameterName){
+    global[parameterName] = global[parameterName] - 0.1;
   }
 
-  eventDecSmall(){
-    global[this.parameter] = global[this.parameter] - 0.5;
-    console.log(global[this.parameter])
+  eventDecBig(parameterName){
+    global[parameterName] = global[parameterName] - 0.5;
+    console.log(global[parameterName])
   }
   
   draw(loadingColour, bgColour){
@@ -180,7 +177,7 @@ class ParameterEditorGUI {
 // Class to represent a circular button with
 class CircularButtonWithIcon {
 
-  constructor(buttonColour, buttonX, buttonY, buttonD, isPlus, iconColour, eventToTrigger) {
+  constructor(buttonColour, buttonX, buttonY, buttonD, isPlus, iconColour, eventToTrigger, associatedParameter) {
     this.buttonColour = buttonColour;
     this.buttonX = buttonX;
     this.buttonY = buttonY;
@@ -188,6 +185,7 @@ class CircularButtonWithIcon {
     this.isPlus = isPlus;
     this.iconColour = iconColour;
     this.eventToTrigger = eventToTrigger;
+    this.associatedParameter = associatedParameter;
 
   }
 
@@ -229,9 +227,11 @@ class CircularButtonWithIcon {
 
     if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD){
       console.log('triggeringEvent' + this.eventToTrigger);
-      this.eventToTrigger();
+      this.eventToTrigger(this.associatedParameter);
     }
 
+    console.log('SHEESH')
+    console.log(this.eventToTrigger)
     return false;
 
   }
