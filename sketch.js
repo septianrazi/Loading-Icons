@@ -6,6 +6,7 @@ Septian Razi , 2019
 // button specific variables
 var borderButtonWidth = 20 // border width for bleed
 var buttonW = 50
+var parameterWidth = buttonW * 1.5
 var buttonH = 25
 var bottomYPosition; // specifies the bottom of the screen to put our buttons in
 var debug = "Misc"
@@ -52,8 +53,6 @@ var parameterGUI1;
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-
-
   // setup global variables (that need some p5-specific stuff)
   bottomYPosition = windowHeight - buttonH - borderButtonWidth;
   sliderPosY = windowHeight - borderButtonWidth - buttonH;
@@ -62,8 +61,8 @@ function setup() {
   colourButton = new RectButtonWithText(global.loadingColour, 0 + buttonW + borderButtonWidth, bottomYPosition, buttonW, buttonH, "Colour", global.bgColour, changeBackground);
   randomButton = new RectButtonWithText(global.loadingColour, 0 + 3*buttonW + 2*borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Random', global.bgColour, changeToRandomLoadingIcon);
 
-  speedParameterGUI = new ParameterEditorGUI('speed', 'speed', global.loadingColour, 300, 400, 70, global.bgColour);
-  opacityParameterGUI = new ParameterEditorGUI('opacity', 'bgOpacity', global.loadingColour, 300, 500, 70, global.bgColour);
+  speedParameterGUI = new ParameterEditorGUI('speed', 'speed', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 3*buttonH, parameterWidth, global.bgColour);
+  opacityParameterGUI = new ParameterEditorGUI('opacity', 'bgOpacity', global.loadingColour, 0 + parameterWidth + borderButtonWidth, bottomYPosition - 6* buttonH, parameterWidth , global.bgColour);
 
 }
 
@@ -125,29 +124,33 @@ class ParameterEditorGUI {
   }
 
   eventIncSmall(parameterName){
-    global[parameterName] = global[parameterName] + 0.1;
+    global[parameterName] = global[parameterName] + 1;
   }
 
   eventIncBig(parameterName){
-    global[parameterName] = global[parameterName] + 0.5;
+    global[parameterName] = global[parameterName] + 5;
   }
 
   eventDecSmall(parameterName){
-    global[parameterName] = global[parameterName] - 0.1;
+    global[parameterName] = global[parameterName] - 1;
   }
 
   eventDecBig(parameterName){
-    global[parameterName] = global[parameterName] - 0.5;
+    global[parameterName] = global[parameterName] - 5;
     console.log(global[parameterName])
   }
   
   draw(loadingColour, bgColour){
+    fill(bgColour)
+    rect(this.buttonX, this.buttonY, this.buttonD, this.buttonD/2)
+
     this.minButtonSmall.draw(loadingColour, bgColour);
     this.minButtonBig.draw(loadingColour, bgColour);
     this.plusButtonSmall.draw(loadingColour, bgColour);
     this.plusButtonBig.draw(loadingColour, bgColour);
 
     this.drawText(loadingColour)
+
   }
 
   drawText(loadingColour){
