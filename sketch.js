@@ -22,8 +22,6 @@ var sliderPosMax = 190
 var sliderButtonSize = 20
 var sliderFill = 150
 
-
-
 var global = {
   
   speed: 10, // speed of the loading animations
@@ -34,7 +32,9 @@ var global = {
   bgColour: 255,
   loadingColour: 0,
   isBlackBG: true,
-  bgOpacity: 100
+  bgOpacity: 100,
+  shapeSize: 50,
+  moveSize: 70
 }
 
 // other loading icon variables
@@ -63,6 +63,8 @@ function setup() {
 
   speedParameterGUI = new ParameterEditorGUI('speed', 'speed', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 3*buttonH, parameterWidth, global.bgColour);
   opacityParameterGUI = new ParameterEditorGUI('opacity', 'bgOpacity', global.loadingColour, 0 + parameterWidth + borderButtonWidth, bottomYPosition - 6* buttonH, parameterWidth , global.bgColour);
+  shapeSizeParameterGUI = new ParameterEditorGUI('shape size', 'shapeSize', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 9*buttonH, parameterWidth, global.bgColour);
+  moveSizeParameterGUI = new ParameterEditorGUI('movement size', 'moveSize', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 12*buttonH, parameterWidth, global.bgColour);
 
 }
 
@@ -87,6 +89,8 @@ function draw() {
 
   speedParameterGUI.draw(global.loadingColour, global.bgColour);
   opacityParameterGUI.draw(global.loadingColour, global.bgColour);
+  shapeSizeParameterGUI.draw(global.loadingColour, global.bgColour);
+  moveSizeParameterGUI.draw(global.loadingColour, global.bgColour);
 
   // // Slider
   // fill(225)
@@ -101,6 +105,9 @@ function draw() {
   //strokeWeight(1)
 }
 
+
+// GUI for editing the  global parameters
+// Handles the drawing of 4 individual buttons and corresponding parameter text
 class ParameterEditorGUI {
   constructor(title, parameter, buttonColour, buttonX, buttonY, buttonD, iconColour) {
     this.title = title;
@@ -116,13 +123,15 @@ class ParameterEditorGUI {
     let smallButtonSize = buttonD / 5;
     let bigButtonSize = buttonD / 4;
 
-    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset * 1.75, buttonY, smallButtonSize, false, iconColour, this.eventDecSmall, this.parameter);
-    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset, buttonY, bigButtonSize, false, iconColour, this.eventDecBig, this.parameter);
-    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset * 1.75, buttonY, smallButtonSize, true, iconColour, this.eventIncSmall, this.parameter);
-    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset, buttonY, bigButtonSize, true, iconColour, this.eventIncBig, this.parameter);
+    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset , buttonY, smallButtonSize, false, iconColour, this.eventDecSmall, this.parameter);
+    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset* 1.75, buttonY, bigButtonSize, false, iconColour, this.eventDecBig, this.parameter);
+    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset , buttonY, smallButtonSize, true, iconColour, this.eventIncSmall, this.parameter);
+    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset * 1.75, buttonY, bigButtonSize, true, iconColour, this.eventIncBig, this.parameter);
 
   }
 
+
+  //EVENTS FOR EACH INCREMENTAL BUTTON
   eventIncSmall(parameterName){
     global[parameterName] = global[parameterName] + 1;
   }
@@ -140,9 +149,11 @@ class ParameterEditorGUI {
     console.log(global[parameterName])
   }
   
+  // draw Function to draw the individual buttons and text
   draw(loadingColour, bgColour){
     fill(bgColour)
     rect(this.buttonX, this.buttonY, this.buttonD, this.buttonD/2)
+    
 
     this.minButtonSmall.draw(loadingColour, bgColour);
     this.minButtonBig.draw(loadingColour, bgColour);
@@ -153,6 +164,7 @@ class ParameterEditorGUI {
 
   }
 
+  // draws the value of the global parameter and name of the parameter to edit
   drawText(loadingColour){
     push()
 
@@ -167,6 +179,7 @@ class ParameterEditorGUI {
     pop()
   }
 
+  // function to check if an event is needed to be triggered in this parameterGUI
   checkForEvent(x, y){
     console.log("checkingEvents for small ones")
     this.minButtonSmall.checkForEvent(x, y);
@@ -290,8 +303,8 @@ function drawDebugText() {
   text('x: ' + Math.round(mouseX) + ' y: ' + Math.round(mouseY), borderButtonWidth, borderButtonWidth);
   text('speed:\t' + global.speed, borderButtonWidth, borderButtonWidth + 20);
   text('opacity:\t' + global.bgOpacity, borderButtonWidth, borderButtonWidth + 40);
-  text('shape size:\t' + sizes.shape, borderButtonWidth, borderButtonWidth + 60);
-  text('movement size:\t' + sizes.movement, borderButtonWidth, borderButtonWidth + 80);
+  text('shape size:\t' + global.shapeSize, borderButtonWidth, borderButtonWidth + 60);
+  text('movement size:\t' + global.moveSize, borderButtonWidth, borderButtonWidth + 80);
 
 
   pop()
@@ -342,13 +355,13 @@ function keyTyped() {
   } else if (key === 'r') {
     changeToRandomLoadingIcon();
   } else if (key === 'a') {
-    sizes.shape -= 5;
+    global.shapeSize -= 5;
   } else if (key === 's') {
-    sizes.shape += 5;
+    global.shapeSize += 5;
   } else if (key === 'd') {
-    sizes.movement -= 5;
+    global.moveSize -= 5;
   } else if (key === 'f') {
-    sizes.movement += 5;
+    global.moveSize += 5;
   }
 
   if (global.bgOpacity <= 0){
@@ -358,7 +371,7 @@ function keyTyped() {
   }
 
   console.log("speed = " + global.speed + ", opacity = " + global.bgOpacity +
-  ", ShapeSize = " + sizes.shape + ", MovementSize = " + sizes.movement)
+  ", ShapeSize = " + global.shapeSize + ", MovementSize = " + global.moveSize)
 }
 
 // Mouse Pressed Event Listener
@@ -366,7 +379,7 @@ function mousePressed() {
   // Check if mouse is inside the circle
   console.log("mouse pressed")
   
-  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < sizes.movement)
+  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < global.moveSize)
     changeBackground()
 
     opacityParameterGUI.checkForEvent(mouseX, mouseY);
