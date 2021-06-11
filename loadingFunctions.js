@@ -64,10 +64,10 @@ function load28(speed){
   function load26(speed) {
     push()
   
-    stroke(loadingColour)
+    stroke(global.loadingColour)
     strokeWeight(sizes.shape/20)
   
-    fill(loadingColour)
+    fill(global.loadingColour)
     push()
     rotate(frameCount*speed * 30/4)
     line(-sizes.shape, 0, sizes.shape, 0)
@@ -175,10 +175,10 @@ function load28(speed){
     push()
     let change = sizes.movement * tan(frameCount*speed)
 
-    stroke(loadingColour)
+    stroke(global.loadingColour)
     strokeWeight(sizes.shape/20)
 
-    fill(loadingColour)
+    fill(global.loadingColour)
     rotate(frameCount*speed * 30/8)
     line(-change, 0, change, 0)
   
@@ -194,10 +194,10 @@ function load28(speed){
   
     let change = sizes.movement * tan(cos(frameCount*speed))
 
-    stroke(loadingColour)
+    stroke(global.loadingColour)
     strokeWeight(sizes.shape/20)
   
-    fill(loadingColour)
+    fill(global.loadingColour)
     rotate(frameCount*speed * 30/4)
     line(-change, 0, change, 0)
   
@@ -212,7 +212,7 @@ function load28(speed){
 
     noStroke()
   
-    fill(loadingColour)
+    fill(global.loadingColour)
     rotate(frameCount*speed*30/4)
     circle(-change, 0, sizes.shape)
     circle(change, 0, sizes.shape)
@@ -230,7 +230,7 @@ function load28(speed){
 
     noStroke()
   
-    fill(loadingColour)
+    fill(global.loadingColour)
     rotate(frameCount*speed*10)
     circle(-change, 0, sizes.shape)
     circle(change, 0, sizes.shape)
@@ -244,7 +244,7 @@ function load28(speed){
   
     let change = sizes.movement * sin(frameCount * speed)
   
-    fill(loadingColour)
+    fill(global.loadingColour)
     translate(-change, 0)
     rotate(frameCount * speed * 20/15)
     rect(0, 0, sizes.shape, sizes.shape)
@@ -261,7 +261,7 @@ function load28(speed){
     let change = sizes.movement * sin(frameCount * speed)
 
   
-    fill(loadingColour)
+    fill(global.loadingColour)
     rotate(frameCount * (speed *1.33))
     circle(-change, 0, sizes.shape*0.65-change/7)
     circle(change, 0, sizes.shape*0.65-change/7)
@@ -289,7 +289,7 @@ function load28(speed){
     push()
   
     noStroke()
-    fill(loadingColour,150)
+    fill(global.loadingColour,150)
     for (i = 0; i < 7; i++) {
       let c = sizes.movement * sin(frameCount* 1/(speed*sizes.movement+i))
   
@@ -304,7 +304,7 @@ function load28(speed){
     push()
   
     noStroke()
-    fill(loadingColour,150)
+    fill(global.loadingColour,150)
     for (i = 0; i < 7; i++) {
       let c = sizes.movement * cos(i*5*speed + (frameCount * speed))
       circle(c, 0, sizes.shape + (i*sizes.shape/20) )
@@ -339,11 +339,11 @@ function load28(speed){
     }
   
     cSize = sizes.shape/2
-    fill(loadingColour,o1)
+    fill(global.loadingColour,o1)
     circle(-sizes.shape,0,cSize)
-    fill(loadingColour,o2)
+    fill(global.loadingColour,o2)
     circle(0,0,cSize)
-    fill(loadingColour,o3)
+    fill(global.loadingColour,o3)
     circle(sizes.shape,0,cSize)
   
     pop()
@@ -357,7 +357,7 @@ function load28(speed){
     let change = sizes.shape * sin(frameCount * speed)
 
   
-    fill(loadingColour)
+    fill(global.loadingColour)
     // rotate(frameCount/15)
     rect(-change, 0, 50-change/10,50-change/10)
     rect(change, 0, 50-change/10,50-change/10)
@@ -372,7 +372,7 @@ function load28(speed){
     let change = sizes.movement * sin(frameCount * speed)
 
   
-    fill(loadingColour,215)
+    fill(global.loadingColour,215)
     rect(-change, 0, sizes.shape - change/10,sizes.shape-change/10)
     rect(change, 0, sizes.shape-change/10,sizes.shape-change/10)
   
