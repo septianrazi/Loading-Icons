@@ -3,24 +3,26 @@ Loading Icons P5 Project
 Septian Razi , 2019
 ----------------------------------*/
 
-// button specific variables
-var borderButtonWidth = 20 // border width for bleed
+
+var bgColour = 255
+var loadingColour = 0
+var borderButtonWidth = 10 // border width for bleed
 var buttonW = 50
 var parameterWidth = buttonW * 1.5
 var buttonH = 25
-var bottomYPosition; // specifies the bottom of the screen to put our buttons in
 var debug = "Misc"
-// Buttons used in program
-var colourButton;
-var randomButton;
+var blackBG = true
+var loadingSize = 150 // Size of Loading animation Icon
+var bgOpacity = 100
+var loadArray = [] // Array to store different load icon animations
 
-// slider variables
 var sliderPosY;
 var sliderPosX = 120
 var sliderPosMin = 50
 var sliderPosMax = 190
 var sliderButtonSize = 20
 var sliderFill = 150
+var globalSpeed = 0.10;
 
 // global variables stored inside struct
 var global = {

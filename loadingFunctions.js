@@ -138,8 +138,9 @@ function load28(speed){
   //Floral Pattern
   function load21(speed) {
     push()
-
+    // speed = 0.005
     noStroke()
+    // bgOpacity = 50
     change = (frameCount*speed)
   
   
@@ -166,6 +167,37 @@ function load28(speed){
       rect(0,0,global.shapeSize+change,global.shapeSize+change, 3*change, 3*change)
     }
   
+    // console.log(change)
+    pop()
+  }
+  //Square rev up
+  function load20(speed) {
+    push()
+    // speed = 0.005
+    noStroke()
+    // bgOpacity = 50
+    change = tan(frameCount*speed/10)
+    rotate(change)
+    if (change < 3){
+      rect(0,0,50+change,50+change)
+    } else if (change > 3){
+      rect(0,0,50+change,50+change, 3*change, 3*change)
+    }
+  
+    // console.log(change)
+    pop()
+  }
+  
+  //Square rev up
+  function load13(speed) {
+    push()
+    // speed = 0.005
+    noStroke()
+    // bgOpacity = 50
+    change = tan(frameCount*speed/10)
+    rotate(change)
+    rect(0,0,50+change,50+change)
+
     // console.log(change)
     pop()
   }
@@ -200,6 +232,8 @@ function load28(speed){
     fill(global.loadingColour)
     rotate(frameCount*speed * 30/4)
     line(-change, 0, change, 0)
+    
+    //circle(change, 0, 50)
   
     pop()
   }
@@ -282,7 +316,6 @@ function load28(speed){
     // console.log(change)
     pop()
   }
-    
   
   //PENDULUM
   function load12(speed) {
@@ -348,9 +381,24 @@ function load28(speed){
   
     pop()
   }
-
   
-// NEEDS UPDATING
+  //CIRCLE SPIRAL LOADING
+  function load14(speed) {
+    push()
+  
+    noStroke();
+    let change = loadingSize * sin(frameCount * speed)
+    //line(-loadingSize+change,0,loadingSize-change,0)
+  
+    fill(loadingColour)
+    rotate(frameCount * (speed *1.33))
+    circle(-change, 0, loadingSize*0.65-change/7)
+    circle(change, 0, loadingSize*0.65-change/7)
+  
+    pop()
+  }
+  
+  //SQUARE SPIRAL LOADING
   function load9(speed) {
     push()
   
@@ -379,7 +427,7 @@ function load28(speed){
     pop()
   }
   
-  //NEEDS UPDATING
+  //SIN STRAIGHT LINE
   function load7(speed) {
     push()
   
