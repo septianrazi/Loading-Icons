@@ -294,8 +294,11 @@ class ParameterEditorGUI {
   
   // draw Function to draw the individual buttons and text
   draw(loadingColour, bgColour){
+
+    strokeWeight(0)
     fill(bgColour)
     rect(this.buttonX, this.buttonY, this.buttonD, this.buttonD/2)
+
 
     this.minButtonSmall.draw(loadingColour, bgColour);
     this.minButtonBig.draw(loadingColour, bgColour);
