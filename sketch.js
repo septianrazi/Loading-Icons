@@ -227,16 +227,16 @@ function keyTyped() {
     global.bgOpacity = 255;
   }
 
-  console.log("speed = " + global.speed + ", opacity = " + global.bgOpacity +
-  ", ShapeSize = " + global.shapeSize + ", MovementSize = " + global.moveSize)
+  // console.log("speed = " + global.speed + ", opacity = " + global.bgOpacity +
+  // ", ShapeSize = " + global.shapeSize + ", MovementSize = " + global.moveSize)
 }
 
 // Mouse Pressed Event Listener
 function mousePressed() {
   // Check if mouse is inside the circle
-  console.log("mouse pressed")
+  // console.log("mouse pressed")
   
-  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < global.moveSize)
+  if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < 50)
     changeBackground();
 
   // Check for clicks on buttons 
@@ -289,7 +289,6 @@ class ParameterEditorGUI {
 
   eventDecBig(parameterName){
     global[parameterName] = global[parameterName] - 5;
-    console.log(global[parameterName])
   }
   
   // draw Function to draw the individual buttons and text
@@ -325,7 +324,6 @@ class ParameterEditorGUI {
 
   // function to check if an event is needed to be triggered in this parameterGUI
   checkForEvent(x, y){
-    console.log("checkingEvents for small ones")
     this.minButtonSmall.checkForEvent(x, y);
     this.minButtonBig.checkForEvent(x, y);
     this.plusButtonSmall.checkForEvent(x, y);
@@ -383,15 +381,10 @@ class CircularButtonWithIcon {
   // returns true is within, false if outside
   // useful for mouseClicked events
   checkForEvent(x, y) {
-    console.log('check');
 
     if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD){
-      console.log('triggeringEvent' + this.eventToTrigger);
       this.eventToTrigger(this.associatedParameter);
     }
-
-    console.log('SHEESH')
-    console.log(this.eventToTrigger)
     return false;
   }
 }
