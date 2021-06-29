@@ -22,8 +22,8 @@ var sliderPosMax = 190
 var sliderButtonSize = 20
 var sliderFill = 150
 
+// global variables stored inside struct
 var global = {
-  
   speed: 10, // speed of the loading animations
   
   index: 20, // Loading Function Index to be played from the loadingFunctions Array
@@ -48,7 +48,7 @@ var sizes = {
 var colourButton;
 var randomButton;
 
-var parameterGUI1;
+var buttons = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -61,10 +61,19 @@ function setup() {
   colourButton = new RectButtonWithText(global.loadingColour, 0 + buttonW + borderButtonWidth, bottomYPosition, buttonW, buttonH, "Colour", global.bgColour, changeBackground);
   randomButton = new RectButtonWithText(global.loadingColour, 0 + 3*buttonW + 2*borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Random', global.bgColour, changeToRandomLoadingIcon);
 
+  // GUIs for parameter 
   speedParameterGUI = new ParameterEditorGUI('speed', 'speed', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 3*buttonH, parameterWidth, global.bgColour);
   opacityParameterGUI = new ParameterEditorGUI('opacity', 'bgOpacity', global.loadingColour, 0 + parameterWidth + borderButtonWidth, bottomYPosition - 6* buttonH, parameterWidth , global.bgColour);
   shapeSizeParameterGUI = new ParameterEditorGUI('shape size', 'shapeSize', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 9*buttonH, parameterWidth, global.bgColour);
   moveSizeParameterGUI = new ParameterEditorGUI('movement size', 'moveSize', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 12*buttonH, parameterWidth, global.bgColour);
+
+  // Adding buttons to be drawn
+  buttons.push(colourButton);
+  buttons.push(randomButton);
+  buttons.push(speedParameterGUI);
+  buttons.push(opacityParameterGUI);
+  buttons.push(shapeSizeParameterGUI);
+  buttons.push(moveSizeParameterGUI);
 
 }
 
@@ -72,30 +81,22 @@ function draw() {
   background(global.bgColour,global.bgOpacity);
   drawDebugText();
 
-  // ref = "speed";
-  // console.log(global[ref])
-
+  //Setting some default p5 configurations
   rectMode(RADIUS);
   textAlign(CENTER, CENTER);
   textSize(16);
   strokeWeight(0.5);
 
-  // Button 1
-  colourButton.draw(global.loadingColour, global.bgColour);
-
-  // Button 2
-  randomButton.draw(global.loadingColour, global.bgColour);
-
-
-  speedParameterGUI.draw(global.loadingColour, global.bgColour);
-  opacityParameterGUI.draw(global.loadingColour, global.bgColour);
-  shapeSizeParameterGUI.draw(global.loadingColour, global.bgColour);
-  moveSizeParameterGUI.draw(global.loadingColour, global.bgColour);
+  // Drawing all buttons
+  buttons.forEach(element => {
+    element.draw(global.loadingColour, global.bgColour)
+  });
 
   // // Slider
   // fill(225)
   // drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
 
+  // Displaying actual Loading Icons
   fill(global.loadingColour)
   stroke(global.loadingColour)
   translate(windowWidth/2, windowHeight/2);
@@ -103,188 +104,6 @@ function draw() {
   loadingFunctions[global.index](global.speed / 100);
 
   //strokeWeight(1)
-}
-
-
-// GUI for editing the  global parameters
-// Handles the drawing of 4 individual buttons and corresponding parameter text
-class ParameterEditorGUI {
-  constructor(title, parameter, buttonColour, buttonX, buttonY, buttonD, iconColour) {
-    this.title = title;
-    this.parameter = parameter;
-    
-    this.buttonColour = buttonColour;
-    this.buttonX = buttonX;
-    this.buttonY = buttonY;
-    this.buttonD = buttonD;
-    this.iconColour = iconColour;
-
-    let offset = buttonD/2;
-    let smallButtonSize = buttonD / 5;
-    let bigButtonSize = buttonD / 4;
-
-    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset , buttonY, smallButtonSize, false, iconColour, this.eventDecSmall, this.parameter);
-    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset* 1.75, buttonY, bigButtonSize, false, iconColour, this.eventDecBig, this.parameter);
-    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset , buttonY, smallButtonSize, true, iconColour, this.eventIncSmall, this.parameter);
-    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset * 1.75, buttonY, bigButtonSize, true, iconColour, this.eventIncBig, this.parameter);
-
-  }
-
-
-  //EVENTS FOR EACH INCREMENTAL BUTTON
-  eventIncSmall(parameterName){
-    global[parameterName] = global[parameterName] + 1;
-  }
-
-  eventIncBig(parameterName){
-    global[parameterName] = global[parameterName] + 5;
-  }
-
-  eventDecSmall(parameterName){
-    global[parameterName] = global[parameterName] - 1;
-  }
-
-  eventDecBig(parameterName){
-    global[parameterName] = global[parameterName] - 5;
-    console.log(global[parameterName])
-  }
-  
-  // draw Function to draw the individual buttons and text
-  draw(loadingColour, bgColour){
-    fill(bgColour)
-    rect(this.buttonX, this.buttonY, this.buttonD, this.buttonD/2)
-    
-
-    this.minButtonSmall.draw(loadingColour, bgColour);
-    this.minButtonBig.draw(loadingColour, bgColour);
-    this.plusButtonSmall.draw(loadingColour, bgColour);
-    this.plusButtonBig.draw(loadingColour, bgColour);
-
-    this.drawText(loadingColour)
-
-  }
-
-  // draws the value of the global parameter and name of the parameter to edit
-  drawText(loadingColour){
-    push()
-
-    fill(loadingColour)
-    textSize(this.buttonD/4);
-
-    text(this.title, this.buttonX, this.buttonY - this.buttonD/3)
-
-    let parameterVal = Number.parseFloat(global[this.parameter]).toPrecision(3);
-    text(parameterVal, this.buttonX, this.buttonY)
-    
-    pop()
-  }
-
-  // function to check if an event is needed to be triggered in this parameterGUI
-  checkForEvent(x, y){
-    console.log("checkingEvents for small ones")
-    this.minButtonSmall.checkForEvent(x, y);
-    this.minButtonBig.checkForEvent(x, y);
-    this.plusButtonSmall.checkForEvent(x, y);
-    this.plusButtonBig.checkForEvent(x, y);
-  }
-}
-// Class to represent a circular button with
-class CircularButtonWithIcon {
-
-  constructor(buttonColour, buttonX, buttonY, buttonD, isPlus, iconColour, eventToTrigger, associatedParameter) {
-    this.buttonColour = buttonColour;
-    this.buttonX = buttonX;
-    this.buttonY = buttonY;
-    this.buttonD = buttonD;
-    this.isPlus = isPlus;
-    this.iconColour = iconColour;
-    this.eventToTrigger = eventToTrigger;
-    this.associatedParameter = associatedParameter;
-
-  }
-
-  // method to draw the actual button given
-  // param: buttonColour and textColour (0 - 255 integer)
-  draw(buttonColour, iconColour) {
-    fill(buttonColour);
-    circle(this.buttonX, this.buttonY, this.buttonD);
-    
-    fill(iconColour);
-
-    if (this.isPlus)
-      this.drawPlus(iconColour,this.buttonX, this.buttonY, this.buttonD)
-    else
-      this.drawMin(iconColour,this.buttonX, this.buttonY, this.buttonD)
-
-    // text(this.inputText, this.buttonX, this.buttonY);
-  }
-
-  drawPlus(iconColour, buttonX, buttonY, buttonD){
-    push()
-    var radius = buttonD/2;
-    rect(this.buttonX, this.buttonY, radius - radius*0.4, radius/6,  radius/10)
-    rect(this.buttonX, this.buttonY, radius/6, radius - radius*0.4,  radius/10)
-
-  }
-
-  drawMin(iconColour, buttonX, buttonY, buttonD){
-    var radius = buttonD/2;
-    rect(this.buttonX, this.buttonY, radius - radius*0.4, radius/6,  radius/10)
-  }
-
-  // finds whether a given position is within the bounds of this button and triggers associated Event
-  // param: x and y positions
-  // returns true is within, false if outside
-  // useful for mouseClicked events
-  checkForEvent(x, y) {
-    console.log('check');
-
-    if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD){
-      console.log('triggeringEvent' + this.eventToTrigger);
-      this.eventToTrigger(this.associatedParameter);
-    }
-
-    console.log('SHEESH')
-    console.log(this.eventToTrigger)
-    return false;
-
-  }
-}
-
-// Class to represent a button with text
-class RectButtonWithText {
-
-  constructor(buttonColour, buttonX, buttonY, buttonW, buttonH, inputText, textColour, eventToTrigger) {
-    this.buttonColour = buttonColour;
-    this.buttonX = buttonX;
-    this.buttonY = buttonY;
-    this.buttonW = buttonW;
-    this.buttonH = buttonH;
-    this.inputText = inputText;
-    this.textColour = textColour;
-    this.eventToTrigger = eventToTrigger;
-  }
-
-  // method to draw the actual button given
-  // param: buttonColour and textColour (0 - 255 integer)
-  draw(buttonColour, textColour) {
-    fill(buttonColour);
-    rect(this.buttonX, this.buttonY, this.buttonW, this.buttonH, 10);
-    fill(textColour);
-    text(this.inputText, this.buttonX, this.buttonY);
-  }
-
-  // finds whether a given position is within the bounds of this button and triggers associated Event
-  // param: x and y positions
-  // returns true is within, false if outside
-  // useful for mouseClicked events
-  checkForEvent(x, y) {
-    if (this.buttonX - this.buttonW < x && x < this.buttonX + this.buttonW)
-      if (this.buttonY - this.buttonH < y && y < this.buttonY + this.buttonH)
-        this.eventToTrigger();
-
-    return false;
-  }
 }
 
 
@@ -306,7 +125,6 @@ function drawDebugText() {
   text('shape size:\t' + global.shapeSize, borderButtonWidth, borderButtonWidth + 60);
   text('movement size:\t' + global.moveSize, borderButtonWidth, borderButtonWidth + 80);
 
-
   pop()
 }
 
@@ -321,6 +139,45 @@ function drawSlider(x, s, min, max, f){
   stroke(1)
 }
 
+// function to change the background of colour
+function changeBackground() {
+  if (global.isBlackBG) {
+    global.bgColour = 0;
+    global.loadingColour = 255;
+    global.isBlackBG = false
+  } else if (!global.isBlackBG){
+    global.bgColour = 255;
+    global.loadingColour = 0;
+    global.isBlackBG = true
+  }
+  background(global.bgColour)
+}
+
+// function to prepare the change of the loading icon
+// param: changeToIndex - loadingIcon index to change to
+function changeLoadingIcon(changeToIndex) {
+
+  // if changeToIndex is not valid, exit function
+  if (changeToIndex >= loadingFunctions.length || changeToIndex < 0){
+    console.log("cannot change to index " + changeToIndex + " as it is out of bounds");
+    return
+  }
+
+  background(global.bgColour);
+  global.index = changeToIndex;
+  console.log("Changed to " + loadingFunctions[global.index].name)
+}
+
+// function to change of the loading icon to a random of the set
+function changeToRandomLoadingIcon(){
+  var randomIndex = int(random(0, loadingFunctions.length));
+  changeLoadingIcon(randomIndex);
+}
+
+
+//////////////////////////
+// EVENTS
+//////////////////////////
 
 // function called when a key is pressed
 function keyTyped() {
@@ -380,55 +237,197 @@ function mousePressed() {
   console.log("mouse pressed")
   
   if (dist(mouseX, mouseY, windowWidth/2, windowHeight/2) < global.moveSize)
-    changeBackground()
+    changeBackground();
 
-    opacityParameterGUI.checkForEvent(mouseX, mouseY);
-    speedParameterGUI.checkForEvent(mouseX, mouseY);
-
-  colourButton.checkForEvent(mouseX, mouseY);
-  randomButton.checkForEvent(mouseX, mouseY);
-
-
-  // if (dist(mouseX, mouseY, sliderPosX, sliderPosY) < sliderButtonSize) {
-  //   sliderFill = 180
-  // }
+  // Check for clicks on buttons 
+  buttons.forEach(element => {
+    element.checkForEvent(mouseX, mouseY)
+  });
+  
 }
 
-// function to change the background of colour
-function changeBackground() {
-  if (global.isBlackBG) {
-    global.bgColour = 0;
-    global.loadingColour = 255;
-    global.isBlackBG = false
-  } else if (!global.isBlackBG){
-    global.bgColour = 255;
-    global.loadingColour = 0;
-    global.isBlackBG = true
+///////////////////////////////
+// OBJECT CLASSES
+//////////////////////////////
+
+// GUI for editing the  global parameters
+// Handles the drawing of 4 individual buttons and corresponding parameter text
+class ParameterEditorGUI {
+  constructor(title, parameter, buttonColour, buttonX, buttonY, buttonD, iconColour) {
+    this.title = title;
+    this.parameter = parameter;
+    
+    this.buttonColour = buttonColour;
+    this.buttonX = buttonX;
+    this.buttonY = buttonY;
+    this.buttonD = buttonD;
+    this.iconColour = iconColour;
+
+    let offset = buttonD/2;
+    let smallButtonSize = buttonD / 5;
+    let bigButtonSize = buttonD / 4;
+
+    this.minButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX - offset , buttonY, smallButtonSize, false, iconColour, this.eventDecSmall, this.parameter);
+    this.minButtonBig = new CircularButtonWithIcon(buttonColour, buttonX - offset* 1.75, buttonY, bigButtonSize, false, iconColour, this.eventDecBig, this.parameter);
+    this.plusButtonSmall = new CircularButtonWithIcon(buttonColour, buttonX + offset , buttonY, smallButtonSize, true, iconColour, this.eventIncSmall, this.parameter);
+    this.plusButtonBig = new CircularButtonWithIcon(buttonColour, buttonX + offset * 1.75, buttonY, bigButtonSize, true, iconColour, this.eventIncBig, this.parameter);
+
   }
-  background(global.bgColour)
-}
 
-// function to prepare the change of the loading icon
-// param: changeToIndex - loadingIcon index to change to
-function changeLoadingIcon(changeToIndex) {
-
-  // if changeToIndex is not valid, exit function
-  if (changeToIndex >= loadingFunctions.length || changeToIndex < 0){
-    console.log("cannot change to index " + changeToIndex + " as it is out of bounds");
-    return
+  //EVENTS FOR EACH INCREMENTAL BUTTON
+  eventIncSmall(parameterName){
+    global[parameterName] = global[parameterName] + 1;
   }
 
-  background(global.bgColour);
-  global.index = changeToIndex;
-  console.log("Changed to " + loadingFunctions[global.index].name)
+  eventIncBig(parameterName){
+    global[parameterName] = global[parameterName] + 5;
+  }
+
+  eventDecSmall(parameterName){
+    global[parameterName] = global[parameterName] - 1;
+  }
+
+  eventDecBig(parameterName){
+    global[parameterName] = global[parameterName] - 5;
+    console.log(global[parameterName])
+  }
+  
+  // draw Function to draw the individual buttons and text
+  draw(loadingColour, bgColour){
+    fill(bgColour)
+    rect(this.buttonX, this.buttonY, this.buttonD, this.buttonD/2)
+
+    this.minButtonSmall.draw(loadingColour, bgColour);
+    this.minButtonBig.draw(loadingColour, bgColour);
+    this.plusButtonSmall.draw(loadingColour, bgColour);
+    this.plusButtonBig.draw(loadingColour, bgColour);
+
+    this.drawText(loadingColour)
+  }
+
+  // draws the value of the global parameter and name of the parameter to edit
+  drawText(loadingColour){
+    push()
+
+    fill(loadingColour)
+    textSize(this.buttonD/4);
+
+    text(this.title, this.buttonX, this.buttonY - this.buttonD/3)
+
+    let parameterVal = Number.parseFloat(global[this.parameter]).toPrecision(3);
+    text(parameterVal, this.buttonX, this.buttonY)
+    
+    pop()
+  }
+
+  // function to check if an event is needed to be triggered in this parameterGUI
+  checkForEvent(x, y){
+    console.log("checkingEvents for small ones")
+    this.minButtonSmall.checkForEvent(x, y);
+    this.minButtonBig.checkForEvent(x, y);
+    this.plusButtonSmall.checkForEvent(x, y);
+    this.plusButtonBig.checkForEvent(x, y);
+  }
 }
 
-// function to change of the loading icon to a random of the set
-function changeToRandomLoadingIcon(){
-  var randomIndex = int(random(0, loadingFunctions.length));
-  changeLoadingIcon(randomIndex);
+
+// Class to represent a circular button with
+class CircularButtonWithIcon {
+
+  constructor(buttonColour, buttonX, buttonY, buttonD, isPlus, iconColour, eventToTrigger, associatedParameter) {
+    this.buttonColour = buttonColour;
+    this.buttonX = buttonX;
+    this.buttonY = buttonY;
+    this.buttonD = buttonD;
+    this.isPlus = isPlus;
+    this.iconColour = iconColour;
+    this.eventToTrigger = eventToTrigger;
+    this.associatedParameter = associatedParameter;
+
+  }
+
+  // method to draw the actual button given
+  // param: buttonColour and textColour (0 - 255 integer)
+  draw(buttonColour, iconColour) {
+    fill(buttonColour);
+    circle(this.buttonX, this.buttonY, this.buttonD);
+    
+    fill(iconColour);
+
+    if (this.isPlus)
+      this.drawPlus(iconColour,this.buttonX, this.buttonY, this.buttonD)
+    else
+      this.drawMin(iconColour,this.buttonX, this.buttonY, this.buttonD)
+
+    // text(this.inputText, this.buttonX, this.buttonY);
+  }
+
+  drawPlus(iconColour, buttonX, buttonY, buttonD){
+    push()
+    var radius = buttonD/2;
+    rect(this.buttonX, this.buttonY, radius - radius*0.4, radius/6,  radius/10)
+    rect(this.buttonX, this.buttonY, radius/6, radius - radius*0.4,  radius/10)
+
+  }
+
+  drawMin(iconColour, buttonX, buttonY, buttonD){
+    var radius = buttonD/2;
+    rect(this.buttonX, this.buttonY, radius - radius*0.4, radius/6,  radius/10)
+  }
+
+  // finds whether a given position is within the bounds of this button and triggers associated Event
+  // param: x and y positions
+  // returns true is within, false if outside
+  // useful for mouseClicked events
+  checkForEvent(x, y) {
+    console.log('check');
+
+    if (dist(x, y, this.buttonX, this.buttonY) <= this.buttonD){
+      console.log('triggeringEvent' + this.eventToTrigger);
+      this.eventToTrigger(this.associatedParameter);
+    }
+
+    console.log('SHEESH')
+    console.log(this.eventToTrigger)
+    return false;
+  }
 }
 
+// Class to represent a button with text
+class RectButtonWithText {
+
+  constructor(buttonColour, buttonX, buttonY, buttonW, buttonH, inputText, textColour, eventToTrigger) {
+    this.buttonColour = buttonColour;
+    this.buttonX = buttonX;
+    this.buttonY = buttonY;
+    this.buttonW = buttonW;
+    this.buttonH = buttonH;
+    this.inputText = inputText;
+    this.textColour = textColour;
+    this.eventToTrigger = eventToTrigger;
+  }
+
+  // method to draw the actual button given
+  // param: buttonColour and textColour (0 - 255 integer)
+  draw(buttonColour, textColour) {
+    fill(buttonColour);
+    rect(this.buttonX, this.buttonY, this.buttonW, this.buttonH, 10);
+    fill(textColour);
+    text(this.inputText, this.buttonX, this.buttonY);
+  }
+
+  // finds whether a given position is within the bounds of this button and triggers associated Event
+  // param: x and y positions
+  // returns true is within, false if outside
+  // useful for mouseClicked events
+  checkForEvent(x, y) {
+    if (this.buttonX - this.buttonW < x && x < this.buttonX + this.buttonW)
+      if (this.buttonY - this.buttonH < y && y < this.buttonY + this.buttonH)
+        this.eventToTrigger();
+
+    return false;
+  }
+}
 
 /* -------------------------------
 -----------------------------------
