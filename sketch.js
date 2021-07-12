@@ -10,9 +10,6 @@ var parameterWidth = buttonW * 1.5
 var buttonH = 25
 var bottomYPosition; // specifies the bottom of the screen to put our buttons in
 var debug = "Misc"
-// Buttons used in program
-var colourButton;
-var randomButton;
 
 // slider variables
 var sliderPosY;
@@ -21,6 +18,8 @@ var sliderPosMin = 50
 var sliderPosMax = 190
 var sliderButtonSize = 20
 var sliderFill = 150
+
+var displayCode = false;
 
 // global variables stored inside struct
 var global = {
@@ -60,6 +59,7 @@ function setup() {
   // setup the buttons by initialising RectButtonWithText class
   colourButton = new RectButtonWithText(global.loadingColour, 0 + buttonW + borderButtonWidth, bottomYPosition, buttonW, buttonH, "Colour", global.bgColour, changeBackground);
   randomButton = new RectButtonWithText(global.loadingColour, 0 + 3*buttonW + 2*borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Random', global.bgColour, changeToRandomLoadingIcon);
+  getCodeButton = new RectButtonWithText(global.loadingColour, windowWidth-buttonW- borderButtonWidth, bottomYPosition, buttonW, buttonH, 'Get Code', global.bgColour, toggleDisplayLoadingIconCode);
 
   // GUIs for parameter 
   speedParameterGUI = new ParameterEditorGUI('speed', 'speed', global.loadingColour , 0 + parameterWidth + borderButtonWidth, bottomYPosition - 3*buttonH, parameterWidth, global.bgColour);
@@ -70,6 +70,9 @@ function setup() {
   // Adding buttons to be drawn
   buttons.push(colourButton);
   buttons.push(randomButton);
+  buttons.push(getCodeButton);
+
+
   buttons.push(speedParameterGUI);
   buttons.push(opacityParameterGUI);
   buttons.push(shapeSizeParameterGUI);
@@ -92,6 +95,27 @@ function draw() {
     element.draw(global.loadingColour, global.bgColour)
   });
 
+  if (displayCode){
+    push()
+    textSize(10)
+    textAlign(LEFT, TOP)
+    rectMode(CORNER)
+
+
+    push()
+    fill(global.bgColour)
+    stroke(global.loadingColour)
+    strokeWeight(3)
+    rect(windowWidth-300-buttonW*2-borderButtonWidth*2, windowHeight-buttonH-300, 300, 300)
+    pop()
+
+    fill(global.loadingColour)
+
+    text(loadingFunctions[global.index], windowWidth-300-buttonW*2-borderButtonWidth*2, windowHeight-buttonH-300, 300, 300)
+    print(loadingFunctions[global.index])
+    pop()
+  }
+
   // // Slider
   // fill(225)
   // drawSlider(sliderPosX, sliderButtonSize, sliderPosMin, sliderPosMax,sliderFill)
@@ -102,6 +126,8 @@ function draw() {
   translate(windowWidth/2, windowHeight/2);
 
   loadingFunctions[global.index](global.speed / 100);
+
+
 
   //strokeWeight(1)
 }
@@ -246,6 +272,9 @@ function mousePressed() {
   
 }
 
+function toggleDisplayLoadingIconCode() {
+  displayCode = !displayCode;
+}
 ///////////////////////////////
 // OBJECT CLASSES
 //////////////////////////////
